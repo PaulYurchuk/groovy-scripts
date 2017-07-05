@@ -15,7 +15,11 @@ import static groovyx.net.http.Method.*
 nexusServer = "http://192.168.56.25:8081"
 def http = new HTTPBuilder( nexusServer )
 
-http.headers[ 'Autorization' ] = "Basic " + "jenkinsnexus:jenkins".getBytes('iso-8859-1').encodeBase64()
+nexusServer = "http://192.168.56.25:8081"
+def http = new HTTPBuilder( nexusServer )
+http.auth.basic ('jenkinsnexus', 'jenkins')
+//secrets = http.get( 'myUserName': 'myPassword')
+//http.headers[ 'Autorization' ] = "Basic " + "jenkinsnexus:jenkins".getBytes('iso-8859-1').encodeBase64()
 //http.path = "/repository/Artifact_storage/"
 
 def artifacts = [" "]
@@ -23,7 +27,8 @@ def artifacts = [" "]
 http.request( GET, JSON ) {
 //    uri.path = "/nexus/service/local/lucene/search"
       uri.path = "/repository/Artifact_storage/"
-//    uri.query = [ repositoryId: repository, g: groupId, a: artifactId]
+      //uri.query = [ repositoryId: repository, g: groupId, a: artifactId]
+      uri.query = [ Content : 'last_modified']
 
     response.success = { resp, json ->
 
