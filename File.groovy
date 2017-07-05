@@ -20,13 +20,13 @@ import static groovyx.net.http.ContentType.TEXT
 import static groovyx.net.http.Method.PUT
 
 CliBuilder cli = new CliBuilder(
-        usage: 'groovy rawPopulator.groovy -u {user} -p {password} -d {path to content} -n {repoName} [-h {nx3Url}]')
+        usage: 'groovy File.groovy -u {user} -p {password} -d {path to content} -n {repoName} [-h {nx3Url}]')
 cli.with {
     u longOpt: 'username', args: 1, required: true, 'User with permissions to deploy to the target repo'
     p longOpt: 'password', args: 1, required: true, 'Password for user'
     r longOpt: 'repository', args: 1, required: true, 'Name of raw repository to deploy to, strict content validation is suggested to be turned off.'
-    d longOpt: 'directory', args: 1, required: true, 'Path of directory to recursively dploy'
-    h longOpt: 'host', args: 1, 'Nexus Repository Manager 3 host url (including port if necessary). Defaults to http://localhost:8081'
+    d longOpt: 'directory', args: 1, required: true, 'Path of file to dploy'
+    h longOpt: 'host', args: 1, 'Nexus Repository Manager 3 host url (including port if necessary). Defaults to http://nexus/repository/Artifact_storage/'
 }
 def options = cli.parse(args)
 if (!options) {
@@ -43,9 +43,9 @@ def authInterceptor = new HttpRequestInterceptor() {
     }
 }
 
-HTTPBuilder http = new HTTPBuilder(options.h ?: 'http://localhost:8081')
+HTTPBuilder http = new HTTPBuilder(options.h ?: 'http://nexus/repository/Artifact_storage/')
 http.client.addRequestInterceptor(authInterceptor)
-def resourcePath = "/repository/${options.r}/"
+def resourcePath = "/repository/${options.n}/"
 
 def files = []
 sourceFolder.eachFileRecurse(FILES) { file ->
@@ -72,3 +72,14 @@ files.each { File file ->
 String relativeize(File parent, File child) {
     return parent.toURI().relativize(child.toURI()).getPath()
 }
+
+
+HttpGet
+
+
+File file = new File("somefile.txt");
+FileEntity entity = new FileEntity(file,
+        ContentType.create("text/plain", "UTF-8"));
+
+HttpPost httppost = new HttpPost("http://localhost/action.do");
+httppost.setEntity(entity);
