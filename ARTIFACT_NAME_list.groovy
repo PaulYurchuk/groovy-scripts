@@ -35,8 +35,8 @@ http.request( GET, JSON ) {
     }
 
     // handler for any failure status code:
-    responce.failure = { resp ->
-        println "Unexpected error: ${resp.statusLine.status.Code} : ${resp.statusLine.reasonPhrase}"
+    response.failure = { resp ->
+        println "Unexpected error: ${resp.statusLine.reasonPhrase}"
     }
 }
 return artifacts.sort()
