@@ -14,9 +14,6 @@ import static groovyx.net.http.Method.*
 
 nexusServer = "http://192.168.56.25:8081"
 def http = new HTTPBuilder( nexusServer )
-
-nexusServer = "http://192.168.56.25:8081"
-def http = new HTTPBuilder( nexusServer )
 http.auth.basic ('jenkinsnexus', 'jenkins')
 //secrets = http.get( 'myUserName': 'myPassword')
 //http.headers[ 'Autorization' ] = "Basic " + "jenkinsnexus:jenkins".getBytes('iso-8859-1').encodeBase64()
@@ -26,14 +23,14 @@ def artifacts = [" "]
 
 http.request( GET, JSON ) {
 //    uri.path = "/nexus/service/local/lucene/search"
-      uri.path = "/repository/Artifact_storage/"
-      //uri.query = [ repositoryId: repository, g: groupId, a: artifactId]
-      uri.query = [ Content : 'last_modified']
+    uri.path = "/repository/Artifact_storage/"
+    //uri.query = [ repositoryId: repository, g: groupId, a: artifactId]
+    uri.query = [ Content : 'last_modified']
 
     response.success = { resp, json ->
 
         json.data.each {
-            if (it is "*.tar.gz") {
+            if (it=="*.tar.gz") {
                 artifacts.add(it)
             }
         }
@@ -41,7 +38,7 @@ http.request( GET, JSON ) {
 
     // handler for any failure status code:
     response.failure = { resp ->
-        println "Unexpected error: ${resp.statusLine.reasonPhrase}"
+        println "Unexpected error:${resp.statusLine}: ${resp.statusLine.reasonPhrase}"
     }
 }
 return artifacts.sort()
