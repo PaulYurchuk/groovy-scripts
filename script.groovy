@@ -1,9 +1,11 @@
-import groovy.json.JsonSlurper
-
-def query = """ { "action": "coreui_Component",    "method":"readAssets",    "data":[{"page":"1", "start":"0",    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    "filter":[{"property":"repositoryName","value":"task8"}]}],    "type":"rpc",    "tid":15	} """
-def connection = new URL( "http://nexus/service/extdirect" )
+//Get list of Artifacts from Nexus3 to Jenkins
+def nexusURL = "http://nexus"
+def repo = "task8"
+def cred = "admin:admin123"
+def query = """ { "action": "coreui_Component",    "method":"readAssets",    "data":[{"page":"1", "start":"0",    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    "filter":[{"property":"repositoryName","value":"${repo}"]}],    "type":"rpc",    "tid":15	} """
+def connection = new URL( "${nexusURL}/service/extdirect" )
         .openConnection() as HttpURLConnection
-def auth = "admin:admin123".getBytes().encodeBase64().toString()
+def auth = "${cred}".getBytes().encodeBase64().toString()
 
 connection.setRequestMethod("POST")
 //allow write to connection
@@ -20,29 +22,15 @@ writer.flush()
 writer.close()
 connection.connect()
 
-/*
-def listArtifacts = []
-if ( connection.responseCode == 200){
-    // get the JSON response
-
-    def json = connection.getInputStream() { inStream ->
-        new JsonSlurper().parse( inStream as InputStream )
+//parser Response from Nexus3
+def listArtifacts=[]
+def slurper = new groovy.json.JsonSlurper()
+def response = connection.inputStream.text
+def parsed = slurper.parseText(response)
+parsed.result.data.each {
+    if (it.name.matches(~/.+.tar.gz/)) {
+        listArtifacts.add(it.name)
     }
-def object = json
-    // extract some data from the JSON, printing a report
-        println item.title
-    println "Temperature: ${item.condition?.temp}, Condition: ${item.condition?.text}"
-
-    show some forecasts
-    println "Forecasts:"
-    item.forecast.each { f ->
-        println " * ${f.date} - Low: ${f.low}, High: ${f.high}, Condition: ${f.text}"
-
-    }
-
-} else {
-    println connection.responseCode + ": " + connection.inputStream.text
 }
-*/
 
-println connection.responseCode + ": " + connection.inputStream.text
+listArtifacts.reverse()
