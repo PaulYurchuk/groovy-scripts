@@ -15,10 +15,10 @@ def user = 'admin'
 def password = 'admin123'
 def myrepo = "MNT-maven2-hosted-releases"
 def baseURL = "http://nexus"
-def listArtifacts = []
+def artifacts = []
 String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toString()
 
-def params =  """ { "action": "coreui_Component", "method":"readAssets",
+def reqmap =  """ { "action": "coreui_Component", "method":"readAssets",
                 "data":[{"page":"1", "start":"0",    "limit":"300",
                 "sort": [{"property":"name","direction":"ASC"}],
                 "filter": [{"property":"repositoryName",
@@ -26,15 +26,13 @@ def params =  """ { "action": "coreui_Component", "method":"readAssets",
                 "type":"rpc", "tid":15 } """
 
 
-def remote = new HTTPBuilder("$baseURL")
+def reqartf = new HTTPBuilder("$baseURL")
 
-remote.request(POST, TEXT) { req ->
+reqartf.request(POST, TEXT) { req ->
     headers."Authorization" = basicAuthString
     uri.path = "/service/extdirect"
     headers."Content-Type"="application/json"
-    headers.'Accept'="*/*"
-    headers.Accept="application/json"
-    body = params
+    body = reqmap
 
     response.success = { resp, json ->
         def slurper = new groovy.json.JsonSlurper()
@@ -42,14 +40,15 @@ remote.request(POST, TEXT) { req ->
         def jsonParse = slurper.parseText(jsonT2S)
         jsonParse.result.data.each {
             if (it.name.matches(~/.+.tar.gz/)) {
-                listArtifacts.add(it.name)
+                artifacts.add(it.name)
             }
         }
     }
 }
-for ( i in listArtifacts ) {
+for ( i in artifacts ) {
     println i
 }
+
 
 
 

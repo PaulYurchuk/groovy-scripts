@@ -11,7 +11,7 @@ def myrepo = "MNT-maven2-hosted-releases"
 def artifacts = []
 String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toString()
 
-def params =  """ { "action": "coreui_Component", "method":"readAssets",
+def reqmap =  """ { "action": "coreui_Component", "method":"readAssets",
                 "data":[{"page":"1", "start":"0",    "limit":"300",
                 "sort": [{"property":"name","direction":"ASC"}],
                 "filter": [{"property":"repositoryName",
@@ -19,15 +19,13 @@ def params =  """ { "action": "coreui_Component", "method":"readAssets",
                 "type":"rpc", "tid":15 } """
 
 
-def remote = new HTTPBuilder("http://nexus:8081")
+def reqartf = new HTTPBuilder("http://nexus:8081")
 
-remote.request(POST, TEXT) { req ->
+reqartf.request(POST, TEXT) { req ->
     headers."Authorization" = basicAuthString
     uri.path = "/service/extdirect"
     headers."Content-Type"="application/json"
-    headers.'Accept'="*/*"
-    headers.Accept="application/json"
-    body = params
+    body = reqmap
 
     response.success = { resp, json ->
         def slurper = new groovy.json.JsonSlurper()
