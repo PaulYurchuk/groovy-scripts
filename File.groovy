@@ -1,85 +1,48 @@
 /**
  * Created by USER on 05.07.2017.
  */
-package groovyScripts
-
-@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2')
-import groovyx.net.http.HTTPBuilder
-@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2')
-import groovyx.net.http.HTTPBuilder
-
-/**
- * Populate a raw repository will all content from a directory and all recursive subdirectories.
- */
-import org.apache.http.HttpRequest
-import org.apache.http.HttpRequestInterceptor
-import org.apache.http.protocol.HttpContext
-
-import static groovy.io.FileType.FILES
-import static groovyx.net.http.ContentType.TEXT
-import static groovyx.net.http.Method.PUT
-
-CliBuilder cli = new CliBuilder(
-        usage: 'groovy File.groovy -u {user} -p {password} -d {path to content} -n {repoName} [-h {nx3Url}]')
-cli.with {
-    u longOpt: 'username', args: 1, required: true, 'User with permissions to deploy to the target repo'
-    p longOpt: 'password', args: 1, required: true, 'Password for user'
-    r longOpt: 'repository', args: 1, required: true, 'Name of raw repository to deploy to, strict content validation is suggested to be turned off.'
-    d longOpt: 'directory', args: 1, required: true, 'Path of file to dploy'
-    h longOpt: 'host', args: 1, 'Nexus Repository Manager 3 host url (including port if necessary). Defaults to http://nexus/repository/Artifact_storage/'
-}
-def options = cli.parse(args)
-if (!options) {
-    return
-}
-
-File sourceFolder = new File(options.d)
-assert sourceFolder.exists(): "${sourceFolder} does not exist"
-def username = options.u
-def password = options.password
-def authInterceptor = new HttpRequestInterceptor() {
-    void process(HttpRequest httpRequest, HttpContext httpContext) {
-        httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
-    }
-}
-
-HTTPBuilder http = new HTTPBuilder(options.h ?: 'http://nexus/repository/Artifact_storage/')
-http.client.addRequestInterceptor(authInterceptor)
-def resourcePath = "/repository/${options.n}/"
-
-def files = []
-sourceFolder.eachFileRecurse(FILES) { file ->
-    if (file.name != '.DS_Store') {
-        files << file
-    }
-}
-println "Staging ${files.size()} files for publishing"
-
-files.each { File file ->
-    println "pushing $file"
-    http.request(PUT) {
-        uri.path = "$resourcePath${relativeize(sourceFolder, file)}"
-        requestContentType = TEXT
-
-        body = file.text
-        response.success = { resp ->
-            println "POST response status: ${resp.statusLine}"
-            assert resp.statusLine.statusCode == 201
-        }
-    }
-}
-
-String relativeize(File parent, File child) {
-    return parent.toURI().relativize(child.toURI()).getPath()
-}
+//CliBuilder cli = new CliBuilder(
+//        usage: 'groovy File.groovy -u {user} -p {password} -d {path to content} -n {repoName} [-h {nx3Url}]')
+//cli.with {
+//    u longOpt: 'username', args: 1, required: true, 'User with permissions to deploy to the target repo'
+//   p longOpt: 'password', args: 1, required: true, 'Password for user'
+//   r longOpt: 'repository', args: 1, required: true, 'Name of raw repository to deploy to, strict content validation is suggested to be turned off.'
+//    d longOpt: 'directory', args: 1, required: true, 'Path of file to dploy'
+//    h longOpt: 'host', args: 1, 'Nexus Repository Manager 3 host url (including port if necessary). Defaults to http://nexus/repository/Artifact_storage/'
+//}
+//def options = cli.parse(args)
+//if (!options) {
+//    return
+//}
 
 
-HttpGet
+def command1 = "curl  -v  --user 'jenkinsnexus:jenkins' " +
+        "--upload-file  helloworld-$BUILD_NUMBER.tar.gz   " +
+        "http://nexus/repository/Artifact_storage/helloworld-$BUILD_NUMBER.tar.gz"
+println command1
+def proc1 = command1.execute()
+proc1.waitFor()
+
+println "return code: ${proc1.exitValue()}"
+println "stderr: ${proc1.err.text}"
+println "stdout: ${proc1.in.text}"
 
 
-File file = new File("somefile.txt");
-FileEntity entity = new FileEntity(file,
-        ContentType.create("text/plain", "UTF-8"));
+def command2 = '''/usr/bin/ssh -p vagrant vagrant@192.168.56.26 bash -s <<-SHELL
 
-HttpPost httppost = new HttpPost("http://localhost/action.do");
-httppost.setEntity(entity);
+wget http://jenkinsnexus:jenkins@nexus/repository/Artifact_storage/$PRNUMBER
+    tar -xzf $PRNUMBER
+    rm $PRNUMBER
+    cd /opt/jboss/wildfly-10.1.0.Final/standalone/deployments/
+    if [ -f "helloworld.war" ]
+    then
+    mv helloworld.war /tmp/helloworld.war.old-$BUILD_NUMBER
+    fi
+    mv /root/helloworld.war /opt/jboss/wildfly-10.1.0.Final/standalone/deployments/helloworld.war
+        SHELL '''
+println command2
+def proc2 = command2.execute()
+proc1.waitFor()
+println "return code: ${proc2.exitValue()}"
+println "stderr: ${proc2.err.text}"
+println "stdout: ${proc2.in.text}"
