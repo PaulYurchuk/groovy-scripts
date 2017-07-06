@@ -16,4 +16,19 @@ def httpRequest =  """ { "action":
 "tid":15	
 }"""
 
+request(POST, TEXT) { req ->
+  uri.path = "/service/extdirect"
+  headers."Content-Type" = "application/json"
+  headers.'Accept' = "*/*"
+  headers.Accept = "application/json"
+  body = httpRequest
+  headers.'Authorization' = "Basic ${"admin:123".bytes.encodeBase64().toString()}"
+
+  response.success = { resp, ->
+  println "Status: OK. Status code:  " + "\n" + "${resp.status}"
+  }
+  
+  response.failure = { resp, ->
+  println "Status: Failure. Status code:  " + "\n" + "${resp.status}"
+  }
 }
