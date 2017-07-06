@@ -39,4 +39,4 @@ http.request(POST, TEXT) { req ->
         println("Failure : ${resp.statusLine}")
     }
 }
-println artifacts
+artifacts
