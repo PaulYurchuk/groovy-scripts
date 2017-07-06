@@ -51,7 +51,7 @@ def file = (options.f ?: 'helloworld-15.tar.gz')
         if($choice=="push"){
             println "pushing $file"
             http.request(PUT) {
-                uri.path = "$resourcePath$ + $file"
+                uri.path = "$resourcePath$file"
                 requestContentType = TEXT
 
 
