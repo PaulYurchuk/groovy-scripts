@@ -18,7 +18,7 @@ def repo = "project-releases"
 def way = "http://192.168.50.11:8081"
 def File = new File ("${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
 
-def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/2.0/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz" )
+def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/2.0/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz" )
         .openConnection() as HttpURLConnection
 def auth = "${cred}".getBytes().encodeBase64().toString()
 
