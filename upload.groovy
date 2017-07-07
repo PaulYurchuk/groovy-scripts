@@ -1,11 +1,17 @@
-class upload {
 
-    public static void main(def args) {
-        println("Printing arguments");
-        for(String arguments : args) {
-            println (arguments);
-        }
-    }
+CliBuilder cli = new CliBuilder(
+    usage: 'groovy upload.groovy -a {ARTIFACT_SUFFIX} -b {BUILD_NUMBER}')
+cli.with {
+  a longOpt: 'ARTIFACT_SUFFIX', args: 1, required: true, 'User with permissions to deploy to the target repo'
+  b longOpt: 'BUILD_NUMBER', args: 1, required: true, 'Password for user'
+ }
+def options = cli.parse(args)
+if (!options) {
+  return
+}
+
+def  ARTIFACT_SUFFIX= options.a
+def BUILD_NUMBER= options.b
 
 def cred = "nexus-service-user:jenkins"
 def artifact = "hello-59-2.0-release.tar.gz"
