@@ -2,8 +2,8 @@
 CliBuilder cli = new CliBuilder(
     usage: 'groovy upload.groovy -a {ARTIFACT_SUFFIX} -b {BUILD_NUMBER}')
 cli.with {
-  a longOpt: 'ARTIFACT_SUFFIX', args: 1, required: true, 'User with permissions to deploy to the target repo'
-  b longOpt: 'BUILD_NUMBER', args: 1, required: true, 'Password for user'
+  a longOpt: 'ARTIFACT_SUFFIX', args: 1, required: true, 'Artifact_suffix from job Jenkins'
+  b longOpt: 'BUILD_NUMBER', args: 1, required: true, 'Build_number from job Jenkins'
  }
 def options = cli.parse(args)
 if (!options) {
