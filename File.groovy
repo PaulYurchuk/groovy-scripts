@@ -5,7 +5,7 @@
 import groovyx.net.http.HTTPBuilder
 
 /**
- * download|upload file to Nexus 3.x. raw repo
+ * download|upload file to Nexus 3.x. raw repo/
  */
 import org.apache.http.HttpRequest
 import org.apache.http.HttpRequestInterceptor
@@ -15,6 +15,10 @@ import org.apache.tools.ant.taskdefs.GZip
 import static groovy.io.FileType.FILES
 import static groovyx.net.http.ContentType.TEXT
 import static groovyx.net.http.Method.PUT
+import groovyx.net.http.HTTPBuilder
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
+
 
 CliBuilder cli = new CliBuilder(
         usage: 'groovy file.groovy -e {pull|push} -u {user} -p {password} -d {path to content} -f {name of file} -n {repoName} [-h {nx3Url}]')
@@ -61,10 +65,37 @@ def file = (options.f ?: 'helloworld-15.tar.gz')
                     assert resp.statusLine.statusCode == 201
                 }
             }
-            
+
                 return file.getPath()
-            
+
         }else {
 println 'pull'
-            
+            def httpreq =  """ { "action": "coreui_Component",    
+    "method":"readAssets",    
+    "data":[{"page":"1", "start":"0",
+    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
+    "filter":[{"property":"repositoryName","value":"${options.r ?: 'Artifact_storage2'}"}]}],
+    "type":"rpc",
+    "tid":15
+    } """
+            def remoteUrl = $resourcePath
+            def localUrl = $sourceFolder$file
+            def download(String remoteUrl, String localUrl) {
+                new File("$localUrl").withOutputStream { out ->
+                    new URL($remoteUrl).withInputStream { from ->  out << from }
+                }
+            }
+            http.request(POST, TEXT) { req ->
+                uri.path = '/service/extdirect'
+                headers."Content-Type"="application/json"
+                headers.'Accept'="*/*"
+                body = httpreq
+                headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
+                def cl = response.success = { resp, json ->
+                    download($remoteUrl, "./$file")
+                }
+                cl
+            }
+
+
         }
