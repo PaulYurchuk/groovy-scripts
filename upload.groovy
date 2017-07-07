@@ -26,6 +26,8 @@ def auth = "${cred}".getBytes().encodeBase64().toString()
 connection.setRequestMethod("PUT")
 connection.doOutput = true
 connection.setRequestProperty("Authorization" , "Basic ${auth}")
+connection.setRequestProperty( "Content-Type", "application/octet-stream" )
+connection.setRequestProperty( "Accept", "*/*" )
 
 def writer = new DataOutputStream(connection.outputStream)
 writer.write (File)
