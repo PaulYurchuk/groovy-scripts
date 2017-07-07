@@ -10,16 +10,9 @@ def connection = new URL( "http://nexus/repository/${repo}/helloworld/hello-59/2
 def auth = "${cred}".getBytes().encodeBase64().toString()
 
 connection.setRequestMethod("PUT")
-//allow write to connection
 connection.doOutput = true
-connection.setDoInput(true)
-// set some headers
 connection.setRequestProperty("Authorization" , "Basic ${auth}")
-connection.setRequestProperty( "Content-Type", "application/octet-stream" )
-connection.setRequestProperty( "Accept", "*/*" )
 
-
-// write query to Output in JSON format
 def writer = new DataOutputStream(connection.outputStream)
 writer.write (File)
 writer.flush()
