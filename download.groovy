@@ -15,7 +15,7 @@ def repo = "project-releases"
 def way = "http://192.168.50.11:8081"
 
 new File("artifact.tar.gz").withOutputStream { out ->
-    def url = new URL("${way}/repository/${ARTIFACT_NAME}").openConnection()
+    def url = new URL("${way}/repository/${repo}/${ARTIFACT_NAME}").openConnection()
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
