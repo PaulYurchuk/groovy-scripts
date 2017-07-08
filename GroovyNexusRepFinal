@@ -1,0 +1,58 @@
+@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1' )
+import groovy.json.* 
+
+def urlString = "http://nexus:8081/service/extdirect"
+//Prepairing Query
+def query = """{ "action": "coreui_Component",
+    "method":"readAssets",
+    "data":[{"page":"1", "start":"0",
+    "limit":"300",
+    "sort":[{"property":"name","direction":"ASC"}],
+    "filter":[{"property":"repositoryName","value":"ArtifactsStorage"}]}],
+    "type":"rpc",
+    "tid":15	}""" 
+def url = new URL(urlString) 
+def connection = url.openConnection() 
+connection.setRequestMethod("POST") 
+
+//Authentication section
+def basicAuth = "jenkins:jenkins".bytes.encodeBase64().toString()
+
+//Property section
+connection.setRequestProperty("Authorization", "Basic ${basicAuth}") 
+connection.setRequestProperty("Content-Type", "application/json"); 
+connection.setRequestProperty("Accept", "application/json"); 
+
+//Connect and output
+connection.doOutput = true 
+def writer = new OutputStreamWriter(connection.outputStream) 
+writer.write(query) 
+writer.flush() 
+writer.close() 
+connection.connect() 
+
+
+//Check response code
+assert connection.responseCode == 200
+
+//Recieving JSON
+def input = new BufferedReader(   new InputStreamReader(connection.getInputStream()));
+def inputLine;
+def response = new StringBuffer();
+while ((inputLine = input.readLine()) != null) {
+		response.append(inputLine);
+	}
+	input.close();
+
+//Parsing JSON
+def Artifacts = []
+def jsonSlurper = new JsonSlurper()
+def jsonSTR = response as String
+def parsed = jsonSlurper.parseText(jsonSTR)
+parsed.result.data.each {
+         if (it.name.matches(~/.+.tar.gz/)) {
+             Artifacts.add(it.name)
+             }     
+        }
+
+return Artifacts
