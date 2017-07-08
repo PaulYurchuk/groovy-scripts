@@ -29,8 +29,9 @@ def response = connection.inputStream.text
 def parsed = slurper.parseText(response)
 parsed.result.data.each {
     if (it.name.matches(~/.+.tar.gz/)) {
-        listArtifacts.add(it.name)
-    }
+        def cutStr = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.length())
+        listArtifacts.add(cutStr)
+            }
 }
 
 listArtifacts.reverse()
