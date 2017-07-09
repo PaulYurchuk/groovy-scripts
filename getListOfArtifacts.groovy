@@ -3,11 +3,9 @@ import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
-groupId = "$groupId"
-artifactId = "$artifactId"
-repository = "$repository"
-nexusServer = "$nexusServer"
-fileType = "$fileType"
+def repository = "artifact-storage"
+def nexusServer = "http://nexus"
+def fileType = "tar.gz"
 
 def listArtifacts = []
 
@@ -32,8 +30,8 @@ def http = new HTTPBuilder( nexusServer )
         def jsonRes = json.text as String
         def parsed = slurper.parseText(jsonRes)
         parsed.result.data.each {
-            if (it.name.matches(~/.+.${fileType}/) && it.attributes.maven2.groupId.matches(~/${groupId}/) && it.attributes.maven2.artifactId.matches(~/${artifactId}/)) {
-               listArtifacts.add(it.name)
+            if (it.name.matches(~/.+.${fileType}/)) {
+               listArtifacts.add(it.attributes.maven2.artifactId + '-' + it.attributes.maven2.version)
             }
         }
     }
