@@ -3,7 +3,7 @@ def artifact = "ArtifactId"
 def version = "2"
 
 def repository = "project-releases"
-def myFile = new File ("/opt/jenkins/master2/workspace/nexusupload/custom-art-name-23.tar.gz")
+def myFile = new File ("/opt/jenkins/master2/workspace/nexusupload/custom-art-name-23.tar.gz").bytes
 
 def urlString = "http://nexus:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
 def url = new URL(urlString) 
@@ -21,14 +21,17 @@ connection.setRequestProperty("Content-Type", "application/gzip");
 
 //Connect and output
 connection.doOutput = true 
-def writer = new OutputStreamWriter(connection.outputStream) 
+def writer = new DataOutputStream(connection.outputStream) 
 writer.write(myFile) 
 writer.flush() 
 writer.close() 
 connection.connect() 
 
 
-//Check response code
-assert connection.responseCode == 201
+println connection.responseCode 
+headerFields = connection.getHeaderFields() 
+headerFields.each {println it} 
+
+
 
 
