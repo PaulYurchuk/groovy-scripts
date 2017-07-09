@@ -26,7 +26,7 @@ sess.with {
     Channel chan = openChannel "sftp"
     chan.connect()
     ChannelSftp sftp = (ChannelSftp) chan;
-    def sessionsFile = new File('${WORKSPACE}/$ARTIFACT_NAME')
+    def sessionsFile = new File('${WORKSPACE}/${ARTIFACT_NAME}')
     sessionsFile.withInputStream { istream -> sftp.put(istream, "/home/artifact.tar.gz") }
     chan.disconnect()
     disconnect()
