@@ -19,7 +19,7 @@ cli.with {
     p longOpt: 'password', args: 1, 'Password for user'
     r longOpt: 'repository', args: 1, 'Name of repository to upload to | download from , strict content validation is suggested to be turned off.'
 //    d longOpt: 'directory', args: 1, required: true, 'Path of directory with artifact to upload or where to download artifact'
-    f longOpt: 'filename', args: 1, required: true, 'name of artifact to upload|download'
+    f longOpt: 'ARTIFACT_NAME', args: 1, required: true, 'name of artifact to upload|download'
     h longOpt: 'host', args: 1, 'Nexus Repository Manager 3 host url (including port if necessary). Defaults to http://nexus/'
 }
 def options = cli.parse(args)
