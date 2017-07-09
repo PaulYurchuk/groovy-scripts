@@ -1,16 +1,8 @@
 /**
  * Created by USER on 05.07.2017.
  */
-@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2')
-import groovyx.net.http.HTTPBuilder
-import org.apache.http.HttpRequest
-import org.apache.http.HttpRequestInterceptor
-import org.apache.http.protocol.HttpContext
-import org.apache.tools.ant.taskdefs.GZip
+@Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.2' )
 
-import static groovy.io.FileType.FILES
-import static groovyx.net.http.ContentType.TEXT
-import static groovyx.net.http.Method.PUT
 import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
