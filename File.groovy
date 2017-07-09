@@ -57,7 +57,7 @@ http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
             File sourceF = new File(filePath)
-            assert sourceF.exists(): "${sourceF} does not exist"
+//            assert sourceF.exists(): "${sourceF} does not exist"
             println "pushing ${ARTIFACT_NAME}"
             http.request(PUT, 'application/octet-stream') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
@@ -69,7 +69,7 @@ http.client.addRequestInterceptor(authInterceptor)
                     assert resp.statusLine.statusCode == 201
                 }
             }
-            
+
 
         }else {
             println 'pull'
