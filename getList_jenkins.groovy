@@ -1,13 +1,20 @@
+/**
+ * Created by student on 7/5/17.
+ */
+
+
+
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.1')
 
-import static groovyx.net.http.ContentType.TEXT
 import groovyx.net.http.HTTPBuilder
+import static groovyx.net.http.ContentType.TEXT
 import static groovyx.net.http.Method.POST
 
 
 def user = 'admin'
 def password = 'admin123'
-def myrepo = "MNT-maven2-hosted-releases"
+def myrepo = $REPOSITORYID
+def baseURL = "http://${NEXUSIP}
 def artifacts = []
 String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toString()
 
@@ -19,7 +26,7 @@ def reqmap =  """ { "action": "coreui_Component", "method":"readAssets",
                 "type":"rpc", "tid":15 } """
 
 
-def reqartf = new HTTPBuilder("http://nexus:8081")
+def reqartf = new HTTPBuilder("$baseURL")
 
 reqartf.request(POST, TEXT) { req ->
     headers."Authorization" = basicAuthString
@@ -39,3 +46,7 @@ reqartf.request(POST, TEXT) { req ->
     }
 }
 artifacts
+
+
+
+
