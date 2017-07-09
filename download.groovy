@@ -9,13 +9,14 @@ if (!options) {
 }
 
 def  ARTIFACT_NAME= options.a
-
+def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))     
+def BUILD_NUMBER = ARTIFACT_NAME.findAll(~/\d+/)
 def cred = "nexus-service-user:jenkins"
 def repo = "project-releases"
 def way = "http://192.168.50.11:8081"
 
 new File("artifact.tar.gz").withOutputStream { out ->
-    def url = new URL("${way}/repository/${repo}/${ARTIFACT_NAME}").openConnection()
+    def url = new URL("${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}").openConnection()
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
