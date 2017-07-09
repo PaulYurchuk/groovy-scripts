@@ -87,7 +87,7 @@ http.client.addRequestInterceptor(authInterceptor)
                 headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
                 response.success = { resp, json ->
                     new File(ARTIFACT_NAME).withOutputStream { file ->
-                        new URL("/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
+                        new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
                     }
                 }
             }
