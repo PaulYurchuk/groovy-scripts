@@ -3,10 +3,6 @@
  */
 @Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2')
 import groovyx.net.http.HTTPBuilder
-
-/**
- * download|upload file to Nexus 3.x. raw repo/
- */
 import org.apache.http.HttpRequest
 import org.apache.http.HttpRequestInterceptor
 import org.apache.http.protocol.HttpContext
