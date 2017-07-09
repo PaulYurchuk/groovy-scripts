@@ -1,44 +1,34 @@
-import groovyx.net.http.Method
-import groovyx.net.http.ContentType;
-import org.apache.http.HttpRequest
-import org.apache.http.HttpRequestInterceptor
-import org.apache.http.entity.mime.MultipartEntity
-import org.apache.http.entity.mime.content.FileBody
-import org.apache.http.entity.mime.content.StringBody
-import org.apache.http.protocol.HttpContext
-import groovyx.net.http.HttpResponseException;
+def group = "GroupID"
+def artifact = "ArtifactId"
+def version = "2"
+
+def repository = "project-releases"
+def myFile = new File ("/opt/jenkins/master2/workspace/nexusupload/custom-art-name-23.tar.gz")
+
+def urlString = "http://nexus:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
+def url = new URL(urlString) 
+def connection = url.openConnection() 
+connection.setRequestMethod("PUT")
+
+//Authentication section
+def basicAuth = "jenkins:jenkins".bytes.encodeBase64().toString()
+
+//Property section
+connection.setRequestProperty("Authorization", "Basic ${basicAuth}")
+connection.setRequestMethod("PUT")
+connection.setRequestProperty("Content-Type", "application/gzip");
 
 
-    def path = "/service/local/artifact/maven/content"
-    HTTPBuilder http = new HTTPBuilder("http://nexus:8081")
-    String basicAuthString = "Basic " + "jenkins:jenkins".bytes.encodeBase64().toString()
+//Connect and output
+connection.doOutput = true 
+def writer = new OutputStreamWriter(connection.outputStream) 
+writer.write(myFile) 
+writer.flush() 
+writer.close() 
+connection.connect() 
 
-    http.client.addRequestInterceptor(new HttpRequestInterceptor() {
-      void process(HttpRequest httpRequest, HttpContext httpContext) {
-        httpRequest.addHeader('Authorization', basicAuthString)
-      }
-    })
-    try {
-      http.request(Method.POST, ContentType.ANY) { req ->
-        uri.path = path
 
-      MultipartEntity entity = new MultipartEntity()
-      entity.addPart("hasPom", new StringBody("false"))
-      entity.addPart("file", new FileBody($ARTIFACT_NAME))
-      entity.addPart("a", new StringBody("my-artifact-id"))
-      entity.addPart("g", new StringBody("my-group-id"))
-      entity.addPart("r", new StringBody("project-releases"))
-      entity.addPart("v", new StringBody("my-version"))
-      req.entity = entity
+//Check response code
+assert connection.responseCode == 201
 
-      response.success = { resp, reader ->
-        if(resp.status == 201) {
-          println "success!"
-        }
-      }
-    }
-
-    } catch (HttpResponseException e) {
-      e.printStackTrace()
-    }
 
