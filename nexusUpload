@@ -1,13 +1,14 @@
 def group = "group-name"
 def artifact = "custom-art-name"
-def version = "${BUILD_NUMBER}"
-
+def env = System.getenv()
+def version = env['BUILD_NUMBER']
+println version
 def repository = "project-releases"
-def myFile = new File ("custom-art-name-${BUILD_NUMBER}.tar.gz").bytes
+def myFile = new File ("custom-art-name-${version}.tar.gz").bytes
 def user = "nexus-service-user"
 def password = "nexus"
 
-def urlString = "http://nexus:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
+def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
 def url = new URL(urlString) 
 def connection = url.openConnection() 
 connection.setRequestMethod("PUT")
@@ -28,6 +29,4 @@ writer.write(myFile)
 writer.flush() 
 writer.close() 
 connection.connect() 
-
-
 
