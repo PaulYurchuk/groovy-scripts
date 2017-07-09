@@ -16,7 +16,7 @@ def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
 
 new File("${ARTIFACT_NAME}.tar.gz").withOutputStream { out ->
     def url = new URL("${nexusServer}/repository/${repository}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}.tar.gz").openConnection()
-    def remoteAuth = "Basic " + "admin:admin123".bytes.encodeBase64()
+    def remoteAuth = "Basic " + "jenkins:jenkins".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
 }
