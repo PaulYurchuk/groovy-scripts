@@ -35,7 +35,7 @@ def Version = ARTIFACT_NAME.replaceAll("\\D+","")
 println artifactID
 println Version
 
-def groupID = ${artifactID}
+def groupID = "${artifactID}"
 def username = (options.u ?: 'nexus-service-user')
 def password = (options.password ?: 'admin123')
 def nexus = (options.h ?: 'http://192.168.56.25:8081')
