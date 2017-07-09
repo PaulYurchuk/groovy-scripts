@@ -16,7 +16,7 @@ def BUILD_NUMBER= options.b
 def cred = "nexus-service-user:jenkins"
 def repo = "project-releases"
 def way = "http://192.168.50.11:8081"
-def File = new File ("${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
+def File = new File ("scripts/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
 
 def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz" )
         .openConnection() as HttpURLConnection
