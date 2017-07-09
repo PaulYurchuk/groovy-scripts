@@ -38,7 +38,7 @@ def password = (options.password ?: 'admin123')
 def nexus = (options.h ?: 'http://192.168.56.25:8081')
 def choice = (options.e)
 def repo = (options.r ?: 'project-releases')
-def filePath = "./${ARTIFACT_NAME}"
+def filePath = "/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}"
 
 
 def authInterceptor = new HttpRequestInterceptor() {
@@ -85,7 +85,7 @@ http.client.addRequestInterceptor(authInterceptor)
                 headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
                 response.success = { resp, json ->
                     new File("${filePath}").withOutputStream { file ->
-                        new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
+                        new URL("${"./${ARTIFACT_NAME}"}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
                     }
                 }
             }
