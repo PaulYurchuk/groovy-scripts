@@ -32,7 +32,10 @@ def ARTIFACT_NAME = (options.f)
 def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Version = ARTIFACT_NAME.replaceAll("\\D+","")
 
-def groupID = $artifactID
+println artifactID
+println Version
+
+def groupID = ${artifactID}
 def username = (options.u ?: 'nexus-service-user')
 def password = (options.password ?: 'admin123')
 def nexus = (options.h ?: 'http://192.168.56.25:8081')
