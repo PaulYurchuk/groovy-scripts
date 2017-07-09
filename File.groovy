@@ -9,9 +9,7 @@ import static groovyx.net.http.Method.*
 import org.apache.http.HttpRequestInterceptor
 import org.apache.http.protocol.HttpContext
 import org.apache.http.HttpRequest
-import static groovy.io.FileType.FILES
-import static groovyx.net.http.ContentType.TEXT
-import static groovyx.net.http.Method.PUT
+
 
 
 CliBuilder cli = new CliBuilder(
@@ -58,7 +56,7 @@ def http = new HTTPBuilder("$nexus")
 http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
-            def sourceFile = new File("${filePath}")
+            File sourceFile = new File("${filePath}")
             assert sourceFile.exists(): "${sourceFile} does not exist"
             println "pushing ${ARTIFACT_NAME}"
             http.request(PUT, 'application/octet-stream') { req ->
