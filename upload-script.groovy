@@ -26,7 +26,7 @@ import org.apache.http.entity.mime.*
 /**
  * Base URL and auth-data
  */
-def baseUrl = "http://nexus/"
+def baseUrl = "http://10.6.102.254:8081/"
 
 def username = "admin"
 def password = "admin123"
