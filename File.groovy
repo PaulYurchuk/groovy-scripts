@@ -55,7 +55,7 @@ def http = new HTTPBuilder("$nexus")
 http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
-            File sourceFile = new File("filePath")
+            File sourceFile = new File("${filePath}")
             assert sourceFile.exists(): "${sourceFile} does not exist"
             println "pushing ${ARTIFACT_NAME}"
             http.request(PUT, 'application/octet-stream') { req ->
