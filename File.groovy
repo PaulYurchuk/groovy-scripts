@@ -41,6 +41,7 @@ def repo = (options.r ?: 'project-releases')
 def filePath = "/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}"
 
 
+
 def authInterceptor = new HttpRequestInterceptor() {
     void process(HttpRequest httpRequest, HttpContext httpContext) {
         httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
