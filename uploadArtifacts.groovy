@@ -17,7 +17,7 @@ if (!options) {
 def ARTIFACT_SUFFIX = options.a
 def BUILD_NUMBER = options.b
 def repository = "artifact-storage"
-def nexusServer = "http://192.168.56.30:8081/"
+def nexusServer = "http://192.168.56.30:8081"
 
 def httpput = new HTTPBuilder("${nexusServer}/repository/${repository}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz")
 httpput.setHeaders(Accept: '*/*')

@@ -4,7 +4,7 @@ import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
 def repository = "artifact-storage"
-def nexusServer = "http://nexus"
+def nexusServer = "http://192.168.56.30:8081"
 def fileType = "tar.gz"
 
 def listArtifacts = []
