@@ -56,14 +56,11 @@ def http = new HTTPBuilder("$nexus")
 http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
-//            File sourceF = new File(filePath)
-//            assert sourceF.exists(): "${sourceF} does not exist"
             println "pushing ${ARTIFACT_NAME}"
             http.request(PUT, 'application/octet-stream') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
                 headers."Content-Type"="application/octet-stream"
                 headers."Accept"="*/*"
-//                body = sourceF.bytes
                 body = filePath.bytes
                 response.success = { resp ->
                     println "POST response status: ${resp.statusLine}"
