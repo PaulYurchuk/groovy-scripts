@@ -6,6 +6,8 @@
 import groovyx.net.http.HTTPBuilder
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
+import org.apache.http.HttpRequestInterceptor
+import org.apache.http.protocol.HttpContext
 
 
 CliBuilder cli = new CliBuilder(
