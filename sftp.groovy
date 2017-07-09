@@ -5,7 +5,7 @@ CliBuilder cli = new CliBuilder(
     usage: 'groovy sftp.groovy -a {ARTIFACT_NAME} -p {WORKSPACE}') 
 cli.with {
   a longOpt: 'ARTIFACT_NMAE', args: 1, required: true, 'Artifact_name from job Jenkins'
-  p longOpt: 'WORKSPACE', args: 1, required: true, 'ЦЩКЛЫЗФСУ from job Jenkins'
+  p longOpt: 'WORKSPACE', args: 1, required: true, 'WORKSPACE from job Jenkins'
  }
 def options = cli.parse(args)
 if (!options) {
