@@ -63,12 +63,12 @@ def remotepath = "repository/artifacts"
  * Send files (bad version)
  */
 
-println """curl -v --user '$username:$password' --upload-file $filepath http://nexus/$remotepath/newfile""".execute().text
+//println """curl -v --user '$username:$password' --upload-file $filepath http://nexus/$remotepath/newfile""".execute().text
 
 /**
  * Send files (normal version, but doesn't works)
  */
-/*
+
 try {
     httpPost.request(POST, ANY) { req ->
         uri.path = remotepath.toURI()
@@ -100,4 +100,4 @@ try {
 }
 catch (HttpResponseException e) {
     e.printStackTrace()
-}*/
+}
