@@ -17,9 +17,9 @@ def cred = "nexus-service-user:jenkins"
 def repo = "project-releases"
 def way = "http://192.168.50.11:8081"
 
-if("$PULLPUSH"=="pull"){
+if("$PULLPUSH"=="push"){
 
-println "pull ${ARTIFACT_NAME}"
+println "push ${ARTIFACT_NAME}"
 def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))     
 def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
 def File = new File ("scripts/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
@@ -38,7 +38,7 @@ writer.close()
 println connection.responseCode
 }
 else {
-      println "push ${ARTIFACT_NAME}"
+      println "pull ${ARTIFACT_NAME}"
      def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))     
       def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
      new File("$ARTIFACT_NAME").withOutputStream { out ->
