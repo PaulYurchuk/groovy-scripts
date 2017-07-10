@@ -3,7 +3,7 @@ import groovyx.net.http.*
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 def artifacts = []
-HTTPBuilder http = new HTTPBuilder('http://localhost:5$2033')
+HTTPBuilder http = new HTTPBuilder('http://localhost:5$2033:8081')
 def reqv11 =  ''' { "action":"coreui_Component",
 "method":"readAssets",
 "data":[{"page":"1",
