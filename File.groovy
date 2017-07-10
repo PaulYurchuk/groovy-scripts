@@ -43,7 +43,7 @@ def nexus = (options.h ?: "http://192.168.56.25:8081")
 def choice = (options.e)
 def repo = (options.r ?: "project-releases")
 def filePath = "${ARTIFACT_NAME}"
-def ourFile = new File(testfile).text
+def ourFile = new File('testfile').text
 println "File: ${ourFile} ${ourFile.length()}"
 
 
