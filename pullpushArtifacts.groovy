@@ -23,8 +23,8 @@ def PULLPUSH = options.p
 def repository = "artifact-storage"
 def nexusServer = "http://192.168.56.30:8081"
 
-if("$PULLPUSH"=="push"){
-  println "push ${ARTIFACT_NAME}"
+if("$PULLPUSH"=="pull"){
+  println "pull ${ARTIFACT_NAME}"
   def ARTIFACT_SUFFIX_PULL = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
   def BUILD_NUMBER_PULL = ARTIFACT_NAME.replaceAll("\\D+","")
   new File("${ARTIFACT_NAME}.tar.gz").withOutputStream { out ->
@@ -35,7 +35,7 @@ if("$PULLPUSH"=="push"){
   }
 }
 else {
-  println "pull ${ARTIFACT_NAME}"
+  println "push ${ARTIFACT_NAME}"
   def httpput = new HTTPBuilder("${nexusServer}/repository/${repository}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz")
   httpput.setHeaders(Accept: '*/*')
   httpput.request(PUT) { post ->
