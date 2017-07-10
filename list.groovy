@@ -26,7 +26,8 @@ http.request( POST, TEXT ) { req ->
         def parsed = slurper.parseText(jsonRes)
         parsed.result.data.each {
          if (it.name.matches(~/.+.tar.gz/)) {
-             listArtifacts.add(it.name)
+            def artName = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.length())
+            listArtifacts.add(artName)
          }
      }
     }
