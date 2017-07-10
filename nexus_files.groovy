@@ -7,6 +7,7 @@ import static groovyx.net.http.Method.*
 def user = "nexus-service-user"
 def password = "nexus-service-user"
 def GROUPID = "Task-8"
+def VERSIONID = "1.0"
 def baseURL = "http://10.6.102.18:8081"
 def artifacts = []
 String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toString()
@@ -31,7 +32,7 @@ def ARTIFACTID = options.a
 def ARTIFACT_SUFFIX = options.b
 def BUILD_NUMBER = options.c
 def REPOSITORYID = options.r
-def VERSIONID = ${BUILD_NUMBER}
+
 
 
 
