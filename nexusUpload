@@ -57,7 +57,7 @@ if("$action"=="push"){
 		def url = new URL(urlString) 
 		def connection = url.openConnection() 
 		connection.setRequestProperty("Authorization", "Basic ${basicAuth}")
-    		Stream << url.inputStream
+    		Stream << url.withInputStream
 		}
 
 }
