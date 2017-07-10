@@ -37,11 +37,11 @@ println artifactID
 println Version
 
 def groupID = "${artifactID}"
-def username = (options.u ?: 'nexus-service-user')
-def password = (options.password ?: 'admin123')
-def nexus = (options.h ?: 'http://192.168.56.25:8081')
+def username = (options.u ?: "nexus-service-user")
+def password = (options.password ?: "admin123")
+def nexus = (options.h ?: "http://192.168.56.25:8081")
 def choice = (options.e)
-def repo = (options.r ?: 'project-releases')
+def repo = (options.r ?: "project-releases")
 def filePath = "${ARTIFACT_NAME}"
 
 
@@ -60,9 +60,9 @@ http.client.addRequestInterceptor(authInterceptor)
                 println filePath
             def ourFile = new File(filePath).getBytes()
             assert ourFile.exists(): "${ourFile} does not exist"
-            http.request(PUT, 'application/gzip') { req ->
+            http.request(PUT, 'application/octet-stream') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
-                headers."Content-Type"="application/gzip"
+                headers."Content-Type"="application/octet-stream"
                 headers."Accept"="*/*"
                 body = ourFile.bytes
                 response.success = { resp ->
