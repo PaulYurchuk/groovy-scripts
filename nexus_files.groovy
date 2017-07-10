@@ -46,7 +46,7 @@ if ("$TASK" == "pull") {
             upload.setHeaders(Accept: '*/*')
             upload.request(PUT) { post ->
             requestContentType = BINARY
-            body = new File("${ARTIFACTID}_${VERSIONID}.tar.gz").bytes
+            body = new File("${ARTIFACTID}-${VERSIONID}.tar.gz").bytes
             headers.'Authorization' = basicAuthString
             }
 }
