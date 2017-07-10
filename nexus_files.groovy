@@ -7,24 +7,23 @@ import static groovyx.net.http.Method.*
 def user = "admin"
 def password = "admin123"
 def ARTIFACTID = $ARTIFACTID
-def BUILD_NUMBER = $BUILD_NUMBER
-def GROUPID = $GROUPID
+def GROUPID = "Task-8"
 def VERSIONID = "1.0"
-def baseURL = "http://${NEXUSIP}:8081"
-def repositoryid = $REPOSITORYID
+def baseURL = "http://10.6.102.119:8081"
+def REPOSITORYID = "MNT-maven2-hosted-releases"
 def artifacts = []
 String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toString()
-def task = $TASK
-def FILENAME = "${ARTIFACTID}_${BUILD_NUMBER}-${VERSIONID}.tar.gz"
-def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}_${BUILD_NUMBER}/${VERSIONID}/${ARTIFACTID}_${BUILD_NUMBER}-${VERSIONID}.tar.gz"
+def TASK = $TASK
 
-if (task == "pull") {
+if (TASK == "pull") {
         new File("${FILENAME}").withOutputStream { out ->
-            def url = new URL("${FULLPATH}").openConnection()
+            def url = new URL("${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${FILENAME}").openConnection()
             url.setRequestProperty("Authorization", basicAuthString)
             out << url.inputStream
         }
 }else {
+	 def FILENAME = "${ARTIFACTID}-${VERSIONID}.tar.gz"
+	 def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz"
          def upload = new HTTPBuilder("${FULLPATH}")
             upload.setHeaders(Accept: '*/*')
             upload.request(PUT) { post ->

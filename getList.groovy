@@ -40,7 +40,8 @@ reqartf.request(POST, TEXT) { req ->
         def jsonParse = slurper.parseText(jsonT2S)
         jsonParse.result.data.each {
             if (it.name.matches(~/.+.tar.gz/)) {
-                artifacts.add(it.name)
+                def parsed = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.length())
+                artifacts.add(parsed)
             }
         }
     }
