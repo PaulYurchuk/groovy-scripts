@@ -15,7 +15,7 @@ def BUILDN= options.b
 def cred = "nexus-service-user:jenkins"
 def repo = "project-releases"
 def way = "http://nexus"
-def File = new File ("${ARTIFACT_SUFFIX}-${BUILDN}.tar.gz").getBytes()
+def File = new File ("${WORKSPACE}/${ARTIFACT_SUFFIX}-${BUILDN}.tar.gz").getBytes()
 
 def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILDN}/${ARTIFACT_SUFFIX}-${BUILDN}.tar.gz" )
         .openConnection() as HttpURLConnection
