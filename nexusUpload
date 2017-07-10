@@ -50,7 +50,7 @@ if("$action"=="push"){
 	def artifact = ARTIFACT_NAME.substring(0, index )
 	def version = ARTIFACT_NAME.substring(index+1, extIndex)
 	def group = "${artifact}"
-	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz
+	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
 
 	//Pull process
 	new File("$ARTIFACT_NAME").withOutputStream { Stream ->
