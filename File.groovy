@@ -83,25 +83,25 @@ http.client.addRequestInterceptor(authInterceptor)
     } """
 
 
-//            http.request(POST, TEXT) { req ->
-//                uri.path = '/service/extdirect'
-//                headers."Content-Type" = "application/json"
-//                headers.'Accept' = "*/*"
-//                body = httpreq
-//                headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
-//                response.success = { resp, json ->
-//                    new File(ARTIFACT_NAME).withOutputStream { file ->
-//                        new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
-//                    }
-//                }
-//            }
-
-            new File("${ARTIFACT_NAME}").withOutputStream { out ->
-                def url = new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").openConnection()
-                def remoteAuth = "Basic " + "${username}:${password}".bytes.encodeBase64()
-                url.setRequestProperty("Authorization", remoteAuth);
-                out << url.inputStream
+            http.request(POST, TEXT) { req ->
+                uri.path = '/service/extdirect'
+                headers."Content-Type" = "application/json"
+                headers.'Accept' = "*/*"
+               body = httpreq
+                headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
+                response.success = { resp, json ->
+                    new File(ARTIFACT_NAME).withOutputStream { file ->
+                       new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
+                    }
+               }
             }
+
+//            new File("${ARTIFACT_NAME}").withOutputStream { out ->
+ //               def url = new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").openConnection()
+//                def remoteAuth = "Basic " + "${username}:${password}".bytes.encodeBase64()
+//                url.setRequestProperty("Authorization", remoteAuth);
+//                out << url.inputStream
+//            }
 
 
         }
