@@ -43,40 +43,32 @@ def nexus = (options.h ?: "http://192.168.56.25:8081")
 def choice = (options.e)
 def repo = (options.r ?: "project-releases")
 def filePath = "${ARTIFACT_NAME}"
-def ourFile = new File('testfile').text
-println "File: ${ourFile} ${ourFile.length()}"
 
-
+File ourFile = new File(ARTIFACT_NAME)
+def http = new HTTPBuilder("$nexus")
 def authInterceptor = new HttpRequestInterceptor() {
     void process(HttpRequest httpRequest, HttpContext httpContext) {
         httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
     }
 }
 
-def http = new HTTPBuilder("$nexus")
-http.client.addRequestInterceptor(authInterceptor)
-
         if("$choice"=="push"){
-            println "pushing ${ARTIFACT_NAME}"
-                println filePath
-  //              File ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}")
-  //              println "File: ${ourFile} ${ourFile.length()}"
-  //          def ourFile = new File(filePath).getBytes()
-  //          assert ourFile.exists(): "${ourFile} does not exist"
-  //          http.request(PUT, 'application/octet-stream') { req ->
-  //              uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
-  //              headers."Content-Type"="application/octet-stream"
-  //              headers."Accept"="*/*"
-  //              body = ourFile.bytes
-  //              response.success = { resp ->
-  //                  println "POST response status: ${resp.statusLine}"
-  //                  assert resp.statusLine.statusCode == 201
-   //             }
-    //        }
+                println "pushing ${ARTIFACT_NAME}" 
+        http.client.addRequestInterceptor(authInterceptor)
+          http.request(PUT, 'application/octet-stream') { req ->
+              uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
+              headers."Content-Type"="application/octet-stream"
+              headers."Accept"="*/*"
+              body = ourFile.bytes
+              response.success = { resp ->
+                  println "POST response status: ${resp.statusLine}"
+                  assert resp.statusLine.statusCode == 201
+             }
+        }
 
 
         }else {
-
+        http.client.addRequestInterceptor(authInterceptor)
             println 'pull'
             def httpreq = """ { "action": "coreui_Component",    
     "method":"readAssets",    
