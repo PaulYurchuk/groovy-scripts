@@ -32,7 +32,7 @@ def ARTIFACT_SUFFIX = options.b
 def BUILD_NUMBER = options.c
 
 
-
+println "task is $TASK"
 if ("$TASK" == "pull") {
         println "task is $TASK"
         new File("${ARTIFACTID}-${VERSIONID}.tar.gz").withOutputStream { out ->
@@ -43,7 +43,7 @@ if ("$TASK" == "pull") {
             out << url.inputStream
         }
 }else {
-
+    println "task is $TASK"
 	def FILENAME = "${ARTIFACTID}-${VERSIONID}.tar.gz"
 	def FULLPATH = "${baseURL}/repository/${REPOSITORYID}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACT_SUFFIX}_${BUILD_NUMBER}-${VERSIONID}.tar.gz"
         def upload = new HTTPBuilder("${FULLPATH}")
