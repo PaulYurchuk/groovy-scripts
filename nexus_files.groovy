@@ -27,7 +27,7 @@ if (!options) {
 }
 
 def TASK = options.t
-def ARTIFACT_NAME = options.a
+def ARTIFACTID = options.a
 def ARTIFACT_SUFFIX = options.b
 def BUILD_NUMBER = options.c
 
@@ -42,7 +42,7 @@ if ("$TASK" == "pull") {
 }else {
 
 	def FILENAME = "${ARTIFACTID}-${VERSIONID}.tar.gz"
-	def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz"
+	def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACT_SUFFIX}_${BUILD_NUMBER}-${VERSIONID}.tar.gz"
         def upload = new HTTPBuilder("${FULLPATH}")
             upload.setHeaders(Accept: '*/*')
             upload.request(PUT) { post ->
