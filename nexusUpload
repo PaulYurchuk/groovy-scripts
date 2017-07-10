@@ -45,19 +45,20 @@ if("$action"=="push"){
 
 	//Specific pull variables section
 	def ARTIFACT_NAME = env['ARTIFACT_NAME']
-	def index = ARTIFACT_NAME.indexOf("-")
+	def index = ARTIFACT_NAME.lastIndexOf("-")
 	def extIndex = ARTIFACT_NAME.indexOf(".")
 	def artifact = ARTIFACT_NAME.substring(0, index )
 	def version = ARTIFACT_NAME.substring(index+1, extIndex)
 	def group = "${artifact}"
 	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
-
+	println urlString
+  
 	//Pull process
 	new File("$ARTIFACT_NAME").withOutputStream { Stream ->
 		def url = new URL(urlString) 
 		def connection = url.openConnection() 
 		connection.setRequestProperty("Authorization", "Basic ${basicAuth}")
-    		Stream << url.withInputStream
+    		url.withInputStream{ download -> Stream << download }
 		}
 
 }
