@@ -39,4 +39,13 @@ if("$action"=="push"){
 	headerFields = connection.getHeaderFields() 
 	headerFields.each {println it} 
 
+} else {
+
+def x = env['ARTIFACT_NAME']
+def index = x.indexOf("-")
+def extIndex = x.indexOf(".")
+def artifact = x.substring(0, index )
+def version = x.substring(index+1, extIndex)
+def extension = x.substring(extIndex+1)
+
 }
