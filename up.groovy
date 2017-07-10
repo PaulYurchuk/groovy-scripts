@@ -1,8 +1,8 @@
 CliBuilder cli = new CliBuilder(
-        usage: 'groovy upload.groovy -a {ARTIFACT_SUFFIX} -b {BUILD_NUMBER}')
+        usage: 'groovy upload.groovy -a {ARTIFACT_SUFFIX} -b {BUILDN}')
 cli.with {
     a longOpt: 'ARTIFACT_SUFFIX', args: 1, required: true, 'Artifact_suffix from job Jenkins'
-    b longOpt: 'BUILD_NUMBER', args: 1, required: true, 'Build_number from job Jenkins'
+    b longOpt: 'BUILDN', args: 1, required: true, 'Build_number from job Jenkins'
 }
 def options = cli.parse(args)
 if (!options) {
@@ -10,14 +10,14 @@ if (!options) {
 }
 
 def  ARTIFACT_SUFFIX= options.a
-def BUILD_NUMBER= options.b
+def BUILDN= options.b
 
 def cred = "nexus-service-user:jenkins"
 def repo = "project-releases"
 def way = "http://nexus"
-def File = new File ("${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
+def File = new File ("${ARTIFACT_SUFFIX}-${BUILDN}.tar.gz").getBytes()
 
-def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz" )
+def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILDN}/${ARTIFACT_SUFFIX}-${BUILDN}.tar.gz" )
         .openConnection() as HttpURLConnection
 def auth = "${cred}".getBytes().encodeBase64().toString()
 
