@@ -60,9 +60,9 @@ http.client.addRequestInterceptor(authInterceptor)
                 println filePath
             def ourFile = new File(filePath).getBytes()
             assert ourFile.exists(): "${ourFile} does not exist"
-            http.request(PUT, 'application/octet-stream') { req ->
+            http.request(PUT, 'application/gzip') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
-                headers."Content-Type"="application/octet-stream"
+                headers."Content-Type"="application/gzip"
                 headers."Accept"="*/*"
                 body = ourFile.bytes
                 response.success = { resp ->
