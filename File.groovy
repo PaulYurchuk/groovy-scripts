@@ -42,7 +42,7 @@ def password = (options.password ?: 'admin123')
 def nexus = (options.h ?: 'http://192.168.56.25:8081')
 def choice = (options.e)
 def repo = (options.r ?: 'project-releases')
-def filePath = "/home/student/testuploadnexus/${ARTIFACT_NAME}"
+def filePath = "${ARTIFACT_NAME}"
 
 
 
