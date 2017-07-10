@@ -6,7 +6,6 @@ import static groovyx.net.http.Method.*
 
 def user = "admin"
 def password = "admin123"
-def ARTIFACTID = $ARTIFACTID
 def GROUPID = "Task-8"
 def VERSIONID = "1.0"
 def baseURL = "http://10.6.102.119:8081"
@@ -16,15 +15,16 @@ String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toStr
 def TASK = $TASK
 
 if (TASK == "pull") {
-        new File("${FILENAME}").withOutputStream { out ->
-            def url = new URL("${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${FILENAME}").openConnection()
+        new File("${ARTIFACTID}-${VERSIONID}.tar.gz").withOutputStream { out ->
+            def url = new URL("${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz").openConnection()
             url.setRequestProperty("Authorization", basicAuthString)
             out << url.inputStream
         }
 }else {
-	 def FILENAME = "${ARTIFACTID}-${VERSIONID}.tar.gz"
-	 def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz"
-         def upload = new HTTPBuilder("${FULLPATH}")
+
+	def FILENAME = "${ARTIFACTID}-${VERSIONID}.tar.gz"
+	def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz"
+        def upload = new HTTPBuilder("${FULLPATH}")
             upload.setHeaders(Accept: '*/*')
             upload.request(PUT) { post ->
             requestContentType = BINARY

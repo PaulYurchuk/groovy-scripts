@@ -7,8 +7,8 @@ import static groovyx.net.http.Method.POST
 
 def user = 'admin'
 def password = 'admin123'
-def REPOSITORYID = "MNT-maven2-hosted-releases"//$REPOSITORYID
-def baseURL = "http://localhost:8081"// "http://${NEXUSIP}"
+def REPOSITORYID = "MNT-maven2-hosted-releases"
+def baseURL = "http://10.6.102.119:8081"
 def artifacts = []
 String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toString()
 
@@ -34,10 +34,12 @@ reqartf.request(POST, TEXT) { req ->
         def jsonParse = slurper.parseText(jsonT2S)
         jsonParse.result.data.each {
             if (it.name.matches(~/.+.tar.gz/)) {
-                def parsed = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.length())
+                def parsed = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.lastIndexOf("-"))
                 artifacts.add(parsed)
             }
         }
     }
 }
+
 artifacts
+
