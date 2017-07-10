@@ -34,4 +34,6 @@ parsed.result.data.each {
        
            }
 }
-listArtifacts
+listArtifacts.sort { a, b -> 
+    (a,b) = [a, b].collect { (it =~ /\d+/)[-1] as Integer }
+    b <=> a}
