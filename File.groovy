@@ -57,7 +57,7 @@ http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
             println "pushing ${ARTIFACT_NAME}"
-            def File = new File ("/home/student/testuploadnexus/${ARTIFACT_NAME}").getBytes()
+            def File = new File ("/home/student/testuploadnexus/${ARTIFACT_NAME}").bytes
             http.request(PUT, 'application/octet-stream') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
                 headers."Content-Type"="application/octet-stream"
