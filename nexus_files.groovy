@@ -31,7 +31,6 @@ def ARTIFACTID = options.a
 def ARTIFACT_SUFFIX = options.b
 def BUILD_NUMBER = options.c
 def REPOSITORYID = options.r
-def GROUPID = options.g
 def VERSIONID = ${BUILD_NUMBER}
 
 
