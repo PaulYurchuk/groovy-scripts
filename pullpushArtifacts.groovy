@@ -35,7 +35,7 @@ if("$PULLPUSH"=="pull"){
   }
 }
 else {
-  println "push ${ARTIFACT_NAME}"
+  println "push ${ARTIFACT_SUFFIX}-${BUILD_NUMBER}"
   def httpput = new HTTPBuilder("${nexusServer}/repository/${repository}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz")
   httpput.setHeaders(Accept: '*/*')
   httpput.request(PUT) { post ->
