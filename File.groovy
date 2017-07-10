@@ -43,7 +43,7 @@ def nexus = (options.h ?: "http://192.168.56.25:8081")
 def choice = (options.e)
 def repo = (options.r ?: "project-releases")
 def filePath = "${ARTIFACT_NAME}"
-File ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}")
+File ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/hello-40.tar.gz")
 println "File: ${ourFile} ${ourFile.length()}"
 
 
