@@ -22,7 +22,7 @@ remote.request(POST, TEXT) { req ->
     body = httpreq
 
     headers.'Authorization' =
-            "Basic ${"admin:admin123".bytes.encodeBase64().toString()}"
+            "Basic ${"admin:1b2n3m".bytes.encodeBase64().toString()}"
 
     response.success = { resp, json ->
         println "DONE! ${resp.status}"
