@@ -6,14 +6,14 @@ import groovyx.net.http.*
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 def artifacts = []
-HTTPBuilder http = new HTTPBuilder('http://nexus/')
+HTTPBuilder http = new HTTPBuilder('http://localhost:5$2033')
 def reqv11 =  ''' { "action":"coreui_Component",
 "method":"readAssets",
 "data":[{"page":"1",
 "start":"0",
 "limit":"300",
 "sort":[{"property":"name","direction":"ASC"}],
-"filter":[{"property":"repositoryName","value":"Artifact_storage"}]}],
+"filter":[{"property":"repositoryName","value":"project-releases"}]}],
 "type":"rpc",
 "tid":15 } '''
 http.request(POST, TEXT) { req ->
@@ -21,7 +21,7 @@ http.request(POST, TEXT) { req ->
     headers.'Accept'="*/*"
     headers."Content-Type"="application/json"
     body = reqv11
-    headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"
+    headers.'Authorization'="Basic ${"nexus-service-user:admin123".bytes.encodeBase64().toString()}"
     response.success = { resp, json ->
        // assert resp.status == 200
         println("Success code status: " + resp.status )
