@@ -93,12 +93,5 @@ def authInterceptor = new HttpRequestInterceptor() {
                }
             }
 
-//            new File("${ARTIFACT_NAME}").withOutputStream { out ->
- //               def url = new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").openConnection()
-//                def remoteAuth = "Basic " + "${username}:${password}".bytes.encodeBase64()
-//                url.setRequestProperty("Authorization", remoteAuth);
-//                out << url.inputStream
-//            }
-
 
         }
