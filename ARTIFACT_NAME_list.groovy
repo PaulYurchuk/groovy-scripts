@@ -29,7 +29,7 @@ http.request(POST, TEXT) { req ->
         def jsonOUT = json.text as String
         def parsing = slurper.parseText(jsonOUT)
         parsing.result.data.each {
-            if (it.name.matches(~/helloworld.+.tar.gz/)) {
+            if (it.name.matches(~/.+.tar.gz/)) {
                 artifacts.add(it.name)
             }
         }
