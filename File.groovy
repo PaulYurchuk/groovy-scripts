@@ -58,19 +58,19 @@ http.client.addRequestInterceptor(authInterceptor)
         if("$choice"=="push"){
             println "pushing ${ARTIFACT_NAME}"
                 println filePath
-                def ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}").getBytes()
-                println "File: ${ourFile}"
+                def ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}")
+                println "File: ${ourFile} ${ourFile.length()}"
   //          def ourFile = new File(filePath).getBytes()
   //          assert ourFile.exists(): "${ourFile} does not exist"
-            http.request(PUT, 'application/octet-stream') { req ->
-                uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
-                headers."Content-Type"="application/octet-stream"
-                headers."Accept"="*/*"
-                body = ourFile
-                response.success = { resp ->
-                    println "POST response status: ${resp.statusLine}"
-                    assert resp.statusLine.statusCode == 201
-                }
+  //          http.request(PUT, 'application/octet-stream') { req ->
+  //              uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
+  //              headers."Content-Type"="application/octet-stream"
+  //              headers."Accept"="*/*"
+  //              body = ourFile.bytes
+  //              response.success = { resp ->
+  //                  println "POST response status: ${resp.statusLine}"
+  //                  assert resp.statusLine.statusCode == 201
+   //             }
             }
 
 
