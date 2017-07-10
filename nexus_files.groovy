@@ -35,14 +35,14 @@ def BUILD_NUMBER = options.c
 
 if ("$TASK" == "pull") {
         new File("${ARTIFACTID}-${VERSIONID}.tar.gz").withOutputStream { out ->
-            def url = new URL("${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz").openConnection()
+            def url = new URL("${baseURL}/repository/${REPOSITORYID}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz").openConnection()
             url.setRequestProperty("Authorization", basicAuthString)
             out << url.inputStream
         }
 }else {
 
 	def FILENAME = "${ARTIFACTID}-${VERSIONID}.tar.gz"
-	def FULLPATH = "${baseURL}/repository/${repositoryid}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACT_SUFFIX}_${BUILD_NUMBER}-${VERSIONID}.tar.gz"
+	def FULLPATH = "${baseURL}/repository/${REPOSITORYID}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACT_SUFFIX}_${BUILD_NUMBER}-${VERSIONID}.tar.gz"
         def upload = new HTTPBuilder("${FULLPATH}")
             upload.setHeaders(Accept: '*/*')
             upload.request(PUT) { post ->
