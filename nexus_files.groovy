@@ -34,9 +34,10 @@ def BUILD_NUMBER = options.c
 
 
 if ("$TASK" == "pull") {
-    println "${baseURL}/repository/${REPOSITORYID}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz"
+
         new File("${ARTIFACTID}-${VERSIONID}.tar.gz").withOutputStream { out ->
             def url = new URL("${baseURL}/repository/${REPOSITORYID}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz").openConnection()
+            println "${url}"
             url.setRequestProperty("Authorization", basicAuthString)
             out << url.inputStream
         }
