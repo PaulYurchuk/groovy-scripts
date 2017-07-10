@@ -59,6 +59,9 @@ http.client.addRequestInterceptor(authInterceptor)
             println "pushing ${ARTIFACT_NAME}"
                 println filePath
             File ourFile = new File(filePath)
+                println ourFile
+                println ourFile.name
+                prinln ourFile.value
             assert ourFile.exists(): "${ourFile} does not exist"
             http.request(PUT, 'application/octet-stream') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
