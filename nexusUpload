@@ -1,18 +1,20 @@
 //Variables section
 def env = System.getenv()
-def artifact = env['ARTIFACT_SUFFIX']
-def version = env['BUILD_NUMBER']
+
 def action = env['ACTION']
-def group = "${artifact}"
 def repository = "project-releases"
-def myFile = new File ("${artifact}-${version}.tar.gz").bytes
 def user = "nexus-service-user"
 def password = "nexus"
 
 
 if("$action"=="push"){
- 
+ 	def artifact = env['ARTIFACT_SUFFIX']
+	def version = env['BUILD_NUMBER']
+	def group = "${artifact}"
+	def myFile = new File ("${artifact}-${version}.tar.gz").bytes
 	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
+
+
 	def url = new URL(urlString) 
 	def connection = url.openConnection() 
 
