@@ -10,13 +10,13 @@ if (!options) {
 
 def  ARTIFACT_NAME= options.a
 def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
-def cred = "admin:admin123"
-def repo = "artifacts"
-def way = "http://10.6.102.254:8081"
+def BUILDN = ARTIFACT_NAME.replaceAll("\\D+","")
+def cred = "nexus-service-user:jenkins"
+def repo = "project-releases"
+def way = "http://nexus"
 
 new File("artifact.tar.gz").withOutputStream { out ->
-    def url = new URL("${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}").openConnection()
+    def url = new URL("${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILDN}/${ARTIFACT_NAME}").openConnection()
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
