@@ -65,7 +65,7 @@ http.client.addRequestInterceptor(authInterceptor)
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
                 headers."Content-Type"="application/octet-stream"
                 headers."Accept"="*/*"
-                body = ourFile.bytes
+                body = ourFile
                 response.success = { resp ->
                     println "POST response status: ${resp.statusLine}"
                     assert resp.statusLine.statusCode == 201
