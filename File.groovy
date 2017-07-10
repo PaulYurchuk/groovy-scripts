@@ -57,12 +57,13 @@ http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
             println "pushing ${ARTIFACT_NAME}"
-            def File = new File (filePath).bytes
+            def File = new File (filePath).getBytes()
+            assert File.exists(): "${File} does not exist"
             http.request(PUT, 'application/octet-stream') { req ->
                 uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
                 headers."Content-Type"="application/octet-stream"
                 headers."Accept"="*/*"
-                body = File
+                body = File.bytes
                 response.success = { resp ->
                     println "POST response status: ${resp.statusLine}"
                     assert resp.statusLine.statusCode == 201
