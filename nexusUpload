@@ -1,8 +1,8 @@
 //Variables section
-def group = "group-name"
 def env = System.getenv()
 def artifact = env['ARTIFACT_SUFFIX']
 def version = env['BUILD_NUMBER']
+def group = $artifact
 def repository = "project-releases"
 def myFile = new File ("${artifact}-${version}.tar.gz").bytes
 def user = "nexus-service-user"
