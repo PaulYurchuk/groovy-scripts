@@ -25,10 +25,10 @@ def nexusServer = "http://192.168.56.30:8081"
 
 if("$PULL"=="pull"){
   println "pull ${ARTIFACT_NAME}"
-  def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-  def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
+  def ARTIFACT_SUFFIX_PULL = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+  def BUILD_NUMBER_PULL = ARTIFACT_NAME.replaceAll("\\D+","")
   new File("${ARTIFACT_NAME}.tar.gz").withOutputStream { out ->
-    def url = new URL("${nexusServer}/repository/${repository}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}.tar.gz").openConnection()
+    def url = new URL("${nexusServer}/repository/${repository}/${ARTIFACT_SUFFIX_PULL}/${ARTIFACT_SUFFIX_PULL}/${BUILD_NUMBER_PULL}/${ARTIFACT_NAME}.tar.gz").openConnection()
     def remoteAuth = "Basic " + "jenkins:jenkins".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
