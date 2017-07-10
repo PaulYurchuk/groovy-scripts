@@ -12,10 +12,10 @@ if (!options) {
 def  ARTIFACT_SUFFIX= options.a
 def BUILD_NUMBER= options.b
 
-def cred = "admin:admin123"
-def repo = "artifacts"
-def way = "http://10.6.102.254:8081"
-def File = new File ("scripts/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
+def cred = "nexus-service-user:jenkins"
+def repo = "project-releases"
+def way = "http://nexus"
+def File = new File ("${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
 
 def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz" )
         .openConnection() as HttpURLConnection
