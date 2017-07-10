@@ -16,7 +16,7 @@ String basicAuthString = "Basic " + "$user:$password".bytes.encodeBase64().toStr
 CliBuilder cli = new CliBuilder(
    usage: 'groovy nexus_files.groovy -t {TASK ("pull/push")} -a -b -c')
  cli.with {
-   p longOpt: 'TASK', args: 1, required: true, values: ['pull','push'], 'What to do with artifact?'
+   t longOpt: 'TASK', args: 1, required: true, values: ['pull','push'], 'What to do with artifact?'
    a longOpt: 'ARTIFACTID', args: 1, 'ARTIFACTID'
    b longOpt: 'ARTIFACT_SUFFIX', args: 1, 'ARTIFACT_SUFFIX'
    c longOpt: 'BUILD_NUMBER', args: 1, 'BUILD_NUMBER'
