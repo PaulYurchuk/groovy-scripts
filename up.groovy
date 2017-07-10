@@ -1,5 +1,5 @@
 CliBuilder cli = new CliBuilder(
-        usage: 'groovy upload.groovy -a {ARTIFACT_SUFFIX} -b {BUILDN}')
+        usage: 'groovy up.groovy -a {ARTIFACT_SUFFIX} -b {BUILDN}')
 cli.with {
     a longOpt: 'ARTIFACT_SUFFIX', args: 1, required: true, 'Artifact_suffix from job Jenkins'
     b longOpt: 'BUILDN', args: 1, required: true, 'Build_number from job Jenkins'
