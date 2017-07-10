@@ -1,5 +1,5 @@
 CliBuilder cli = new CliBuilder(
-    usage: 'groovy upload.groovy -p {PULLPUSH}  -a {ARTIFACT_NAME} ')
+    usage: 'groovy pull-push.groovy -p {PULLPUSH}  -a {ARTIFACT_NAME} ')
 cli.with {
    p longOpt: 'PULLPUSH', args: 1, required: true, values: ['pull','push'], 'Choose pull or push artifact'
    a longOpt: 'ARTIFACT_NAME', args: 1, 'ARTIFACT_NAME from job Jenkins'
