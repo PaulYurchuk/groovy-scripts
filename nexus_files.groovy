@@ -32,13 +32,11 @@ def ARTIFACT_SUFFIX = options.b
 def BUILD_NUMBER = options.c
 
 
-println "task is $TASK"
+
 if ("$TASK" == "pull") {
         println "task is $TASK"
         new File("${ARTIFACTID}-${VERSIONID}.tar.gz").withOutputStream { out ->
-            println "new file"
             def url = new URL("${baseURL}/repository/${REPOSITORYID}/${GROUPID}/${ARTIFACTID}/${VERSIONID}/${ARTIFACTID}-${VERSIONID}.tar.gz").openConnection()
-            println "${url}"
             url.setRequestProperty("Authorization", basicAuthString)
             out << url.inputStream
         }
