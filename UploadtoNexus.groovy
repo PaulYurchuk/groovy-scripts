@@ -9,9 +9,9 @@ import static groovy.io.FileType.FILES
 import static groovyx.net.http.ContentType.TEXT
 import static groovyx.net.http.Method.PUT
 
-def filePath = "/Users/dart/workspace/artifact-maven-73-1.0.tar.gz"
+def filePath = "/Users/dart/Downloads/artifact-maven-73-1.0.tar.gz"
 def repName = "my-maven-storage"
-def nexusURL = "1.1.0.33:8081/"
+def nexusURL = "10.6.102.93/"
 def nexusLogin = "admin"
 def nexusPass = "admin123"
 def group = "/artifacts/artifact-maven-73/1.0"
