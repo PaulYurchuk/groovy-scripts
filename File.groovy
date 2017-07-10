@@ -58,7 +58,7 @@ http.client.addRequestInterceptor(authInterceptor)
         if("$choice"=="push"){
             println "pushing ${ARTIFACT_NAME}"
                 println filePath
-                def ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}")
+                File ourFile = new File("/var/server/jenkins/slave/workspace/EPBYMINW2033/MNT-CD-module9-build-job/${ARTIFACT_NAME}")
                 println "File: ${ourFile} ${ourFile.length()}"
   //          def ourFile = new File(filePath).getBytes()
   //          assert ourFile.exists(): "${ourFile} does not exist"
