@@ -18,7 +18,7 @@ http.request(POST, TEXT) { req ->
     headers.'Accept'="*/*"
     headers."Content-Type"="application/json"
     body = reqv11
-    headers.'Authorization'="Basic ${"nexus-service-user:admin123".bytes.encodeBase64().toString()}"
+    headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"
     response.success = { resp, json ->
        // assert resp.status == 200
         println("Success code status: " + resp.status )
