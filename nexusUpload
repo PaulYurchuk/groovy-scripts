@@ -1,13 +1,16 @@
-//Variables section
+//Common variables section
 def env = System.getenv()
-
 def action = env['ACTION']
 def repository = "project-releases"
 def user = "nexus-service-user"
 def password = "nexus"
 
+//Authentication section
+def basicAuth = "${user}:${password}".bytes.encodeBase64().toString()
 
 if("$action"=="push"){
+
+	//Specific push variables section
  	def artifact = env['ARTIFACT_SUFFIX']
 	def version = env['BUILD_NUMBER']
 	def group = "${artifact}"
@@ -18,8 +21,7 @@ if("$action"=="push"){
 	def url = new URL(urlString) 
 	def connection = url.openConnection() 
 
-	//Authentication section
-	def basicAuth = "${user}:${password}".bytes.encodeBase64().toString()
+
 
 	//Property section
 	connection.setRequestProperty("Authorization", "Basic ${basicAuth}")
@@ -41,11 +43,21 @@ if("$action"=="push"){
 
 } else {
 
-def x = env['ARTIFACT_NAME']
-def index = x.indexOf("-")
-def extIndex = x.indexOf(".")
-def artifact = x.substring(0, index )
-def version = x.substring(index+1, extIndex)
-def extension = x.substring(extIndex+1)
+	//Specific pull variables section
+	def ARTIFACT_NAME = env['ARTIFACT_NAME']
+	def index = ARTIFACT_NAME.indexOf("-")
+	def extIndex = ARTIFACT_NAME.indexOf(".")
+	def artifact = ARTIFACT_NAME.substring(0, index )
+	def version = ARTIFACT_NAME.substring(index+1, extIndex)
+	def group = "${artifact}"
+	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz
+
+	//Pull process
+	new File("$ARTIFACT_NAME").withOutputStream { Stream ->
+		def url = new URL(urlString) 
+		def connection = url.openConnection() 
+		connection.setRequestProperty("Authorization", "Basic ${basicAuth}")
+    		out << url.inputStream
+		}
 
 }
