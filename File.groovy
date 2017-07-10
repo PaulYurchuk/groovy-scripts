@@ -60,10 +60,10 @@ http.client.addRequestInterceptor(authInterceptor)
             def File = new File (filePath)
             assert File.exists(): "${File} does not exist"
             http.request(PUT, 'application/octet-stream') { req ->
-                uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
+                    uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
                 headers."Content-Type"="application/octet-stream"
                 headers."Accept"="*/*"
-                body = File.getBytes()
+                body = File.bytes
                 response.success = { resp ->
                     println "POST response status: ${resp.statusLine}"
                     assert resp.statusLine.statusCode == 201
