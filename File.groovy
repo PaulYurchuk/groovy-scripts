@@ -1,6 +1,3 @@
-/**
- * Created by USER on 05.07.2017.
- */
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7.2' )
 
 import groovyx.net.http.HTTPBuilder
