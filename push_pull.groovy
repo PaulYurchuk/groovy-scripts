@@ -7,12 +7,24 @@ import org.apache.http.protocol.HttpContext
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
-def repName = "test_artifacts"
+CliBuilder cli = new CliBuilder(
+        usage: 'groovy push_pull.groovy -a {PULLPUSH}  -f {ARTIFACT_NAME} ')
+cli.with {
+    a longOpt: 'PULLPUSH', args: 1, required: true, 'Choose action'
+    f longOpt: 'ARTIFACT_NAME', args: 1, required: true, 'Choose artifact name'
+
+}
+def options = cli.parse(args)
+if (!options) {
+    return
+}
+
+def repName = "deploy_artifacts"
 def nexusURL = "nexus"
 def nexusLogin = "admin"
 def nexusPass = "admin123"
-def artifact = "test_hello-82.tar.gz"
-def action = "pull"
+def artifact = options.f
+def action = options.a
 
 def artifactName = artifact.substring(0, artifact.lastIndexOf("-"))
 def buildNumber = artifact.replaceAll("\\D+","")
@@ -75,4 +87,5 @@ switch (action) {
         println "Wrong action parameter"
         break
 }
+
 
