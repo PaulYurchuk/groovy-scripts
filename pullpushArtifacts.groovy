@@ -23,7 +23,7 @@ def PULLPUSH = options.p
 def repository = "artifact-storage"
 def nexusServer = "http://192.168.56.30:8081"
 
-if("$PULL"=="pull"){
+if("$PULLPUSH"=="pull"){
   println "pull ${ARTIFACT_NAME}"
   def ARTIFACT_SUFFIX_PULL = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
   def BUILD_NUMBER_PULL = ARTIFACT_NAME.replaceAll("\\D+","")
