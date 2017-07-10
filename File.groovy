@@ -57,6 +57,7 @@ http.client.addRequestInterceptor(authInterceptor)
 
         if("$choice"=="push"){
             println "pushing ${ARTIFACT_NAME}"
+                println filePath
             def File = new File (filePath)
             assert File.exists(): "${File} does not exist"
             http.request(PUT, 'application/octet-stream') { req ->
