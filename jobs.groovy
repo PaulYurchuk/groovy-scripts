@@ -33,7 +33,7 @@ mavenJob("${lord}") {
         }
         git {
             remote {
-                github (gitrepo2, branchname)
+                github (gitrepo2)
                 name (branchname)
             }
             extensions {
@@ -42,7 +42,7 @@ mavenJob("${lord}") {
         }
         git {
             remote {
-                github (gitrepoforked, versionbranch)
+                github (gitrepoforked)
                 name (versionbranch)
             }
             extensions {
