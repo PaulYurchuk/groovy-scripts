@@ -10,18 +10,12 @@ import static groovyx.net.http.Method.*
 
 switch (args[0]) {
          case "upload":
-         
-def filePath = "./"
+def BUILD_NUMBER=args[1]
+def filePath = 'hello-'+BUILD_NUMBER+'.tar.gz'
 def group = "hello"
-//def artifact = "hello-$BUILD_NUMBER.tar.gz"
+def artifact = "hello-$BUILD_NUMBER"
 def version = "1.0"
-         def artifact = " "
-         echo ${BUILD_NUMBER}
-         echo '${BUILD_NUMBER}'
-         echo "${BUILD_NUMBER}"
-         echo $BUILD_NUMBER
-         echo BUILD_NUMBER
-         
+
 File sourceFile = new File(filePath)
 assert sourceFile.exists(): "${sourceFile} does not exist"
 def authInterceptor = new HttpRequestInterceptor() {
