@@ -44,7 +44,7 @@ def cred = "${username}:${password}"
 def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
 def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
-def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
+def connection = new URL( "${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_ID}-${Vers2}.tar.gz" )
         .openConnection() as HttpURLConnection
 def auth = "${cred}".getBytes().encodeBase64().toString()
 connection.setRequestMethod("PUT")
