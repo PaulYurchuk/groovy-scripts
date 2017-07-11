@@ -50,7 +50,7 @@ def cred = "${username}:${password}"
 
         if("$choice"=="push"){
                 println "pushing ${ARTIFACT_NAME}"
-                println "pushing ${ARTIFACT_ID}"
+        //        println "pushing ${ARTIFACT_ID}"
                 println "pushing ${nexus}"
                 println "pushing ${choice}"
                 println "pushing ${repo}"
