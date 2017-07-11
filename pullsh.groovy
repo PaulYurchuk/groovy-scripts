@@ -74,7 +74,7 @@ else {
     "type":"rpc",
     "tid":15
     } """
-        
+               headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"       
                //headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
               response.success = { resp, json ->
                   new File(ARTIFACT_NAME).withOutputStream { file ->
