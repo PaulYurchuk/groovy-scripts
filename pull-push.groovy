@@ -15,7 +15,7 @@ def PULLPUSH = options.p
 
 def cred = "nexus-service-user:jenkins"
 def repo = "project-releases"
-def way = "http://nexus"
+def way = "http://localhost:52471"
 
 if("$PULLPUSH"=="push"){
 
