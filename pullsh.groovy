@@ -61,7 +61,12 @@ else {
         def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
         
             println 'pull'
-            def httpreq = """ { "action": "coreui_Component",    
+            http.auth.basic ${username}, ${password}
+               http.request(POST, TEXT) { req ->
+               uri.path = '/service/extdirect'
+               headers."Content-Type" = "application/json"
+               headers.'Accept' = "*/*"
+               body = """ { "action": "coreui_Component",    
     "method":"readAssets",    
     "data":[{"page":"1", "start":"0",
     "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
@@ -69,13 +74,7 @@ else {
     "type":"rpc",
     "tid":15
     } """
-
-               http.auth.basic nexusLogin, nexusPass
-               http.request(POST, TEXT) { req ->
-               uri.path = '/service/extdirect'
-               headers."Content-Type" = "application/json"
-               headers.'Accept' = "*/*"
-               body = httpreq
+        
                //headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
               response.success = { resp, json ->
                   new File(ARTIFACT_NAME).withOutputStream { file ->
