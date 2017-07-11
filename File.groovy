@@ -103,7 +103,7 @@ println connection.responseCode
   //                     new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
   //                  }
   //             }
-            }
+  //          }
 
                 
                 
@@ -115,9 +115,6 @@ println connection.responseCode
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
-}
-                
-                
-                
-
         }
+
+   }
