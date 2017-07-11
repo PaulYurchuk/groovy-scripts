@@ -29,8 +29,8 @@ if (!options) {
 def ARTIFACT_NAME = (options.f)
 
 
-println artifactID
-println Version
+//println artifactID
+//println Version
 
 def groupID = "${artifactID}"
 def username = (options.u ?: "nexus-service-user")
