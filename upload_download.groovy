@@ -13,8 +13,9 @@ switch (args[0]) {
          
 def filePath = "./"
 def group = "hello"
-def artifact = "hello-$BUILD_NUMBER.tar.gz"
+//def artifact = "hello-$BUILD_NUMBER.tar.gz"
 def version = "1.0"
+         def artifact = " "
          echo ${BUILD_NUMBER}
          echo '${BUILD_NUMBER}'
          echo "${BUILD_NUMBER}"
