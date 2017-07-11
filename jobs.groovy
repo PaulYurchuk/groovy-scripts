@@ -165,7 +165,7 @@ job (deployer){
     }
     publishers {
             archiveArtifacts('*.tar.gz')
-        }
     }
 }
+
 
