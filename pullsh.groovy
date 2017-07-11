@@ -52,60 +52,46 @@ def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")
              response.success = { resp ->
                   println "POST response status: ${resp.statusLine}"
                   assert resp.statusLine.statusCode == 201
-             }  
-      }
-//def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-//def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-//def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
-//def connection = new URL( "${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_ID}-${Vers2}.tar.gz" )
-//        .openConnection() as HttpURLConnection
-//def auth = "${cred}".getBytes().encodeBase64().toString()
-//connection.setRequestMethod("PUT")
-//connection.doOutput = true
-//connection.setRequestProperty("Authorization" , "Basic ${auth}")
-//connection.setRequestProperty( "Content-Type", "application/octet-stream" )
-//connection.setRequestProperty( "Accept", "*/*" )
-//def writer = new DataOutputStream(connection.outputStream)
-//writer.write (File)
-//writer.flush()
-//writer.close()
-//println connection.responseCode
-
+                  }  
+             }
         }
 else {
-//        http.client.addRequestInterceptor(authInterceptor)
-//            println 'pull'
-//            def httpreq = """ { "action": "coreui_Component",    
-//    "method":"readAssets",    
-//    "data":[{"page":"1", "start":"0",
-//    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
-//    "filter":[{"property":"repositoryName","value":"${repo}"}]}],
-//    "type":"rpc",
-//    "tid":15
-//    } """
+
+        def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+        def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
+        http.client.addRequestInterceptor(authInterceptor)
+            println 'pull'
+            def httpreq = """ { "action": "coreui_Component",    
+    "method":"readAssets",    
+    "data":[{"page":"1", "start":"0",
+    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
+    "filter":[{"property":"repositoryName","value":"${repo}"}]}],
+    "type":"rpc",
+    "tid":15
+    } """
 
 
-//            http.request(POST, TEXT) { req ->
- //               uri.path = '/service/extdirect'
- //               headers."Content-Type" = "application/json"
- //               headers.'Accept' = "*/*"
- //              body = httpreq
- //               headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
-  //              response.success = { resp, json ->
-  //                  new File(ARTIFACT_NAME).withOutputStream { file ->
-  //                     new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
-  //                  }
-  //             }
-  //          }
+            http.request(POST, TEXT) { req ->
+               uri.path = '/service/extdirect'
+               headers."Content-Type" = "application/json"
+               headers.'Accept' = "*/*"
+               body = httpreq
+               headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
+              response.success = { resp, json ->
+                  new File(ARTIFACT_NAME).withOutputStream { file ->
+                     new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
+                  }
+             }
+          }
               
-println "pull ${ARTIFACT_NAME}"
-def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-     new File("$ARTIFACT_NAME").withOutputStream { out ->
-    def url = new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").openConnection()
-    def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
-    url.setRequestProperty("Authorization", remoteAuth);
-    out << url.inputStream
-        }
+//println "pull ${ARTIFACT_NAME}"
+//def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+//def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
+//     new File("$ARTIFACT_NAME").withOutputStream { out ->
+//    def url = new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").openConnection()
+//    def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
+//    url.setRequestProperty("Authorization", remoteAuth);
+//    out << url.inputStream
+ //       }
 
    }
