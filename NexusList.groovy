@@ -33,7 +33,7 @@ remote.request(POST, TEXT) { req ->
 
         parsed.result.data.each {
             if (it.name.matches(~/.+.tar.gz/)){
-                def myparser = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.lastIndexOf("-")+5)
+                def myparser = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.length())
                 listArtifacts.add(myparser)
             }
         }
