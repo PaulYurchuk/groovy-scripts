@@ -61,9 +61,7 @@ else {
         def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
         def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")
             println 'pull'
-                def nexusLogin = "admin"
-                def nexusPass = "admin123"
-                http.auth.basic nexusLogin, nexusPass
+                http.auth.basic username, password
                http.request(POST, TEXT) { req ->
                uri.path = '/service/extdirect'
                headers."Content-Type" = "application/json"
