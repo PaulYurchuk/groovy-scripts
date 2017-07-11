@@ -71,20 +71,20 @@ def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
                 println "pushing ${artifactID}"
                 println "pushing ${Vers2}"
                 
-def File = new File ("groovy/${artifactID}-${Vers2}.tar.gz").getBytes()
-def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
-        .openConnection() as HttpURLConnection
-def auth = "${cred}".getBytes().encodeBase64().toString()
-connection.setRequestMethod("PUT")
-connection.doOutput = true
-connection.setRequestProperty("Authorization" , "Basic ${auth}")
-connection.setRequestProperty( "Content-Type", "application/octet-stream" )
-connection.setRequestProperty( "Accept", "*/*" )
-def writer = new DataOutputStream(connection.outputStream)
-writer.write (File)
-writer.flush()
-writer.close()
-println connection.responseCode
+//def File = new File ("groovy/${artifactID}-${Vers2}.tar.gz").getBytes()
+//def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
+//        .openConnection() as HttpURLConnection
+//def auth = "${cred}".getBytes().encodeBase64().toString()
+//connection.setRequestMethod("PUT")
+//connection.doOutput = true
+//connection.setRequestProperty("Authorization" , "Basic ${auth}")
+//connection.setRequestProperty( "Content-Type", "application/octet-stream" )
+//connection.setRequestProperty( "Accept", "*/*" )
+//def writer = new DataOutputStream(connection.outputStream)
+//writer.write (File)
+//writer.flush()
+//writer.close()
+//println connection.responseCode
                 
 
         }else {
