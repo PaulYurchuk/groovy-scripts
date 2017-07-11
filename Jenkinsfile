@@ -1,5 +1,4 @@
 pipeline{
-    def mvnHome = tool 'M3'
     agent { label 'EPBYMINW1969' }
     stages {
         stage('Stack creation'){
