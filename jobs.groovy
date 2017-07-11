@@ -112,11 +112,7 @@ mavenJob(builder) {
         archiveArtifacts('*.tar.gz')
         downstreamParameterized {
             trigger(deployer) {
-                block {
-                    buildStepFailure('FAILURE')
-                    failure('FAILURE')
-                    unstable('UNSTABLE')
-                }
+                condition('UNSTABLE_OR_BETTER')
                 parameters {
                     currentBuild()
                 }
