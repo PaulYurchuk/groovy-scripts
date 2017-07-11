@@ -57,13 +57,13 @@ http.request(POST, TEXT) { req ->
                         sourceFile.withOutputStream { file ->
                             new URL("http://192.168.56.51:8081/repository/artifact/${it.name}").withInputStream { download -> file << download }
 }
-    println "File $artifactname downloaded"
+    println "File downloaded"
     }
     }
   }
   
   response.failure ={resp, json ->
-    println "File $artifactname not downloaded"
+    println "File not downloaded"
   } 
 } 
 break
