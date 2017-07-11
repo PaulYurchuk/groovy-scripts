@@ -59,7 +59,7 @@ else {
 
         def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
         def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-        
+        def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")
             println 'pull'
                 def nexusLogin = "admin"
                 def nexusPass = "admin123"
@@ -77,8 +77,8 @@ else {
     "tid":15
     } """
                headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"       
-              response.success = { resp, json ->
-                  new File(ARTIFACT_NAME).withOutputStream { file ->
+              response.success = { resp, json ->      
+                  File.withOutputStream { file ->
                      new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
                   }
              }
