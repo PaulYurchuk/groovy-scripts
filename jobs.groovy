@@ -17,7 +17,7 @@ String someScript = ('''
 def nexusURL = "http://nexus"
 def repo = "project-releases"
 def cred = "nexus-service-user:jenkins"
-def query = """ { "action": "coreui_Component",    "method":"readAssets",    "data":[{"page":"1", "start":"0",    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    "filter":[{"property":"repositoryName","value":"${repo}"]}],    "type":"rpc",    "tid":15\t} """
+def query = """ { "action": "coreui_Component",    "method":"readAssets",    "data":[{"page":"1", "start":"0",    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    "filter":[{"property":"repositoryName","value":"${repo}"}]}],    "type":"rpc",    "tid":15\t} """
 def connection = new URL( "${nexusURL}/service/extdirect" )
         .openConnection() as HttpURLConnection
 def auth = "${cred}".getBytes().encodeBase64().toString()
@@ -36,20 +36,25 @@ writer.write(query)
 writer.flush()
 writer.close()
 connection.connect()
-
 //parser Response from Nexus3
 def listArtifacts=[]
+
 def slurper = new groovy.json.JsonSlurper()
 def response = connection.inputStream.text
 def parsed = slurper.parseText(response)
+
 parsed.result.data.each {
     if (it.name.matches(~/.+.tar.gz/)) {
         def cutStr = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.length())
         listArtifacts.add(cutStr)
+
     }
 }
+listArtifacts.sort { a, b ->
+    (a,b) = [a, b].collect { (it =~ /\\d+/)[-1] as Integer }
+    b <=> a}
 
-return listArtifacts.reverse()
+return listArtifacts
 ''')
 
 /**Job Section**/
