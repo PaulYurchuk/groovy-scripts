@@ -57,29 +57,40 @@ def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")
         }
 else {
 
-        def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-        def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-        def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")
-            println 'pull'
-                http.auth.basic username, password
-               http.request(POST, TEXT) { req ->
-               uri.path = '/service/extdirect'
-               headers."Content-Type" = "application/json"
-               headers.'Accept' = "*/*"
-               body = """ { "action": "coreui_Component",    
-    "method":"readAssets",    
-    "data":[{"page":"1", "start":"0",
-    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
-    "filter":[{"property":"repositoryName","value":"${repo}"}]}],
-    "type":"rpc",
-    "tid":15
-    } """
-               headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"       
-              response.success = { resp, json ->      
-                  File.withOutputStream { file ->
-                     new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
-                  }
-             }
-          }
+              println "pull ${ARTIFACT_NAME}"
+def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
+    new File("$ARTIFACT_NAME").withOutputStream { out ->
+    def url = new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").openConnection()
+    def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
+    url.setRequestProperty("Authorization", remoteAuth);
+out << url.inputStream
+        
+        
+      
+      //  def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+      //  def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
+      //  def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")
+      //      println 'pull'
+      //          http.auth.basic username, password
+      //         http.request(POST, TEXT) { req ->
+      //         uri.path = '/service/extdirect'
+      //         headers."Content-Type" = "application/json"
+      //         headers.'Accept' = "*/*"
+      //         body = """ { "action": "coreui_Component",    
+  //  "method":"readAssets",    
+   // "data":[{"page":"1", "start":"0",
+  //  "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
+  //  "filter":[{"property":"repositoryName","value":"${repo}"}]}],
+  //  "type":"rpc",
+  //  "tid":15
+  //  } """
+  //             headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"       
+  //            response.success = { resp, json ->      
+  //                File.withOutputStream { file ->
+  //                   new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
+  //                }
+  //           }
+  //        }
             
    }
