@@ -155,7 +155,7 @@ job (deployer){
         publishOverSsh {
             server('Tomcat') {
                 credentials('vagrant'){
-                    pathToKey('/home/vagrant/id_rsa')
+                    pathToKey('/opt/jenkins/master/id_rsa')
                 }
                 transferSet {
                     execCommand('rm -rf /opt/tomcat/webapps/helloworld.old && mv /opt/tomcat/webapps/helloworld /opt/tomcat/webapps/helloworld.old')
