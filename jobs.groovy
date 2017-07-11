@@ -152,28 +152,6 @@ job (deployer){
             scriptParam('-a $ARTIFACT_NAME')
         }
         shell ('tar -xzf $ARTIFACT_NAME')
-        publishOverSsh {
-            server('Tomcat') {
-                credentials('student'){
-                    pathToKey('/home/student/.ssh/id_rsa')
-                }
-                transferSet {
-                    execCommand('rm -rf /opt/tomcat/webapps/helloworld.war')
-                }
-            }
-        }
-        publishOverSsh {
-            server('Tomcat') {
-                credentials('student'){
-                    pathToKey('/home/student/.ssh/id_rsa')
-                }
-                transferSet {
-                    sourceFiles('helloworld.war')
-                    remoteDirectory('/opt/tomcat/webapps')
-                    execCommand('mv /home/vagrant/opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps')
-                }
-            }
-        }
     }
     publishers {
             archiveArtifacts('*.tar.gz')
