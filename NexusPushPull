@@ -47,5 +47,6 @@ else {
         def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
         url.setRequestProperty("Authorization", remoteAuth);
         out << url.inputStream
+        println connection.responseCode    
     }
 }
