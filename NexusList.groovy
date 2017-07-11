@@ -32,8 +32,9 @@ remote.request(POST, TEXT) { req ->
         def parsed = slurper.parseText(jsonRes)
 
         parsed.result.data.each {
-            if (it.name.matches(~/.+.tar.gz/)) {
-                listArtifacts.add(it.name)
+            if (it.name.matches(~/.+.tar.gz/)){
+                def myparser = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.lastIndexOf("-"))
+                listArtifacts.add(myparser)
             }
         }
     }
