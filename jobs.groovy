@@ -154,8 +154,8 @@ job (deployer){
         shell ('tar -xzf $ARTIFACT_NAME')
         publishOverSsh {
             server('Tomcat') {
-                credentials('root'){
-                    pathToKey('/opt/jenkins/master/jenkins')
+                credentials('vagrant'){
+                    pathToKey('/home/vagrant/id_rsa')
                 }
                 transferSet {
                     execCommand('rm -rf /opt/tomcat/webapps/helloworld.old && mv /opt/tomcat/webapps/helloworld /opt/tomcat/webapps/helloworld.old')
