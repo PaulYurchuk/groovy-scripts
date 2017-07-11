@@ -111,7 +111,7 @@ mavenJob(builder) {
 job (deployer){
     parameters {
         activeChoiceParam('ARTIFACT_NAME') {
-            choiceType('MULTI_SELECT')
+            choiceType('SINGLE_SELECT')
             description('Choose the artifact')
             groovyScript {
                 script(someScript)

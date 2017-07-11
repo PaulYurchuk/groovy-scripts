@@ -12,5 +12,11 @@ pipeline{
                 parameters: [string(name: 'ARTIFACT_NAME', value: 'helloworld-$BUILD_NUMBER')]
             }
         }
+        stage('Build and upload') {
+            steps {
+                build job: 'MNT-CD-module9-deploy-job',
+                parameters: [string(name: 'ARTIFACT_NAME', value: 'helloworld-9')]
+            }
+         }
     }
 }
