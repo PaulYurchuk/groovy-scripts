@@ -62,8 +62,6 @@ return listArtifacts
 /** Create Master job*/
 mavenJob(builder) {
     parameters {
-        stringParam('ARTIFACT_SUFFIX', 'helloworld', 'Artifact name: suffix')
-        stringParam('BUILD_NUMBER', '$BUILD_NUMBER', 'Artifact name: build Number')
         stringParam('ARTIFACT_NAME', 'helloworld-$BUILD_NUMBER', 'Artifact name: suffix + build Number')
     }
     multiscm {
@@ -112,14 +110,6 @@ mavenJob(builder) {
     }
     publishers {
         archiveArtifacts('*.tar.gz')
-        downstreamParameterized {
-            trigger(deployer) {
-                condition('UNSTABLE_OR_BETTER')
-                parameters {
-                    currentBuild()
-                }
-            }
-        }
     }
 }
 /** Job for deploy*/
@@ -159,7 +149,7 @@ job (deployer){
         shell ('cp scripts/pull-push.groovy ./')
         groovyScriptFile('pull-push.groovy', 'Binary') {
             scriptParam('-p pull')
-            scriptParam('-a $ARTIFACT_NAME.tar.gz')
+            scriptParam('-a $ARTIFACT_NAME')
         }
         shell ('tar -xzf $ARTIFACT_NAME')
         publishOverSsh {
