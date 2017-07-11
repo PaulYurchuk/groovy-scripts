@@ -53,6 +53,8 @@ http.request(POST, TEXT) { req ->
     def parsed = slurper.parseText(jsonRes)
             println parsed
     parsed.result.data.each {
+             println it.name
+             print it.name.matches("${artifact}/${artifact}/${BUILD_NUMBER}/${artifact}-${BUILD_NUMBER}.tar.gz")
       if (it.name.matches("${artifact}/${artifact}/${BUILD_NUMBER}/${artifact}-${BUILD_NUMBER}.tar.gz")) {
                         sourceFile.withOutputStream { file ->
                             new URL("http://192.168.56.51:8081/repository/artifact/${it.name}").withInputStream { download -> file << download }
