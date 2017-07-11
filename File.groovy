@@ -27,8 +27,7 @@ if (!options) {
 
 
 def ARTIFACT_NAME = (options.f)
-def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-def Version = ARTIFACT_NAME.replaceAll("\\D+","")
+
 
 println artifactID
 println Version
@@ -62,7 +61,8 @@ def cred = "${username}:${password}"
   //                assert resp.statusLine.statusCode == 201
    //          }  
     //  }
-
+def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+def Version = ARTIFACT_NAME.replaceAll("\\D+","")
 def File = new File ("${artifactID}-${Version}.tar.gz").getBytes()
 def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz" )
         .openConnection() as HttpURLConnection
@@ -108,8 +108,8 @@ println connection.responseCode
                 
                 
                       println "pull ${ARTIFACT_NAME}"
-//def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-//def Version = ARTIFACT_NAME.replaceAll("\\D+","")
+def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+def Version = ARTIFACT_NAME.replaceAll("\\D+","")
      new File("$ARTIFACT_NAME").withOutputStream { out ->
     def url = new URL("${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${ARTIFACT_NAME}").openConnection()
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
