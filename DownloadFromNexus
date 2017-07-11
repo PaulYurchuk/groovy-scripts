@@ -12,8 +12,8 @@ if (!options) {
 def  ARTIFACT_NAME= options.a
 def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
-def cred = "user:user"
-def repo = "maven-hosted"
+def cred = "nexus-service-user:user"
+def repo = "maven-releases"
 def way = "http://192.168.56.104:8081"
 
 new File("$ARTIFACT_NAME").withOutputStream { out ->

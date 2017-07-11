@@ -7,7 +7,7 @@ def httpreq =  """ { "action": "coreui_Component",
     "method":"readAssets",
     "data":[{"page":"1", "start":"0",
     "limit":"300", "sort":[{"property":"name","direction":"ASC"}],
-    "filter":[{"property":"repositoryName","value":"maven-hosted"}]}],
+    "filter":[{"property":"repositoryName","value":"maven-releases"}]}],
     "type":"rpc",
     "tid":15
 	} """
@@ -22,7 +22,7 @@ remote.request(POST, TEXT) { req ->
     body = httpreq
 
     headers.'Authorization' =
-            "Basic ${"admin:1b2n3m".bytes.encodeBase64().toString()}"
+            "Basic ${"nexus-service-user:user".bytes.encodeBase64().toString()}"
 
     response.success = { resp, json ->
         println "DONE! ${resp.status}"
