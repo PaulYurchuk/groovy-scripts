@@ -4,7 +4,7 @@ import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
 def listArtifacts = []
-def httpBuilder = new HTTPBuilder("http://nexus")
+def httpBuilder = new HTTPBuilder("http://10.6.103.65:8081")
 def httpRequest =  """ { "action": 
 "coreui_Component",    
 "method":"readAssets",    
@@ -13,7 +13,7 @@ def httpRequest =  """ { "action":
 "limit":"300", 
 "sort":[{"property":"name","direction":"ASC"}],    
 "filter":[{"property":"repositoryName",
-"value":"Artifact-storage"}]}],    
+"value":"project-releases"}]}],    
 "type":"rpc",    
 "tid":15	
 }"""
