@@ -12,9 +12,7 @@ switch (args[0]) {
          case "upload":
 def BUILD_NUMBER=args[1]
 def filePath = 'hello-'+BUILD_NUMBER+'.tar.gz'
-def group = "hello"
-def artifact = "hello-$BUILD_NUMBER"
-def version = "1.0"
+def artifact = "hello"
 
 File sourceFile = new File(filePath)
 assert sourceFile.exists(): "${sourceFile} does not exist"
