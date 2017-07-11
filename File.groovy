@@ -10,7 +10,7 @@
 
 
 CliBuilder cli = new CliBuilder(
-        usage: 'groovy file.groovy -e {pull|push} -u {user} -p {password} -f {name of file} -n {repoName} [-h {nx3Url}]')
+        usage: 'groovy file.groovy -e {pull|push} -u {user} -p {password} -f {ARTIFACT_NAME} -n {repoName} [-h {nx3Url}]')
 cli.with {
     e longOpt: 'execute', args: 1,  required: true, values: ['pull','push'], 'pull for download | push for upload'
     u longOpt: 'username', args: 1, 'User with permissions to upload to the target repo'
