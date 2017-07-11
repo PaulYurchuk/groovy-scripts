@@ -61,7 +61,7 @@ else {
         def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
         
             println 'pull'
-            http.auth.basic ${username}, ${password}
+            http.auth.basic username, password
                http.request(POST, TEXT) { req ->
                uri.path = '/service/extdirect'
                headers."Content-Type" = "application/json"
