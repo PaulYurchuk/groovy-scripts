@@ -158,7 +158,11 @@ job (deployer){
                     pathToKey('/opt/jenkins/master/id_rsa')
                 }
                 transferSet {
-                    execCommand('''if [-e '/opt/tomcat/webapps/helloworld.war'] then mv /opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps/helloworld.war.old fi && rm -rf /opt/tomcat/webapps/helloworld.war''')
+                    execCommand('''
+if [[ -f /opt/tomcat/webapps/helloworld.war]] 
+then mv /opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps/helloworld.war.old 
+fi 
+&& rm -rf /opt/tomcat/webapps/helloworld.war''')
                 }
             }
         }
