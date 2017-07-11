@@ -57,7 +57,7 @@ mavenJob("${lord}") {
     rootPOM ('jboss-eap/helloworld/pom.xml')
     goals ('clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
-        shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp $ARTIFACT_NAME.tar.gz ./scripts/')
+        shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp $ARTIFACT_NAME.tar.gz scripts/$ARTIFACT_NAME.tar.gz')
         groovyScriptFile ('scripts/pull-push.groovy -p push -a $ARTIFACT_NAME','Binary')
     }
     publishers {
