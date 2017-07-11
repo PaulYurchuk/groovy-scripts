@@ -41,7 +41,8 @@ def choice = (options.e)
 def repo = (options.r ?: "project-releases")
 def filePath = "${ARTIFACT_NAME}"
 
-File ourFile = new File(ARTIFACT_NAME)
+
+def ourFile = new File ("${artifactID}-${Version}.tar.gz").getBytes()
 def http = new HTTPBuilder("$nexus")
 def authInterceptor = new HttpRequestInterceptor() {
     void process(HttpRequest httpRequest, HttpContext httpContext) {
@@ -53,7 +54,7 @@ def authInterceptor = new HttpRequestInterceptor() {
                 println "pushing ${ARTIFACT_NAME}" 
         http.client.addRequestInterceptor(authInterceptor)
           http.request(PUT, 'application/octet-stream') { req ->
-              uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}"
+              uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
               headers."Content-Type"="application/octet-stream"
               headers."Accept"="*/*"
               body = ourFile.bytes
