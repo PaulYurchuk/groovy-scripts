@@ -24,7 +24,8 @@ mavenJob("${lord}") {
     multiscm {
         git {
             remote {
-                github (gitrepo1, branchname)
+                github (gitrepo1)
+                name (branchname)
             }
             extensions {
                 relativeTargetDirectory('$WORKSPACE/scripts')
@@ -33,6 +34,7 @@ mavenJob("${lord}") {
         git {
             remote {
                 github (gitrepo2, branchname)
+                name (branchname)
             }
             extensions {
                 relativeTargetDirectory('$WORKSPACE/buildp')
@@ -41,6 +43,7 @@ mavenJob("${lord}") {
         git {
             remote {
                 github (gitrepoforked, versionbranch)
+                name (versionbranch)
             }
             extensions {
                 relativeTargetDirectory('$WORKSPACE/jboss-eap')
