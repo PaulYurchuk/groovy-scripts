@@ -12,8 +12,7 @@ def branchname = 'vtarasiuk'
 def builder = 'MNT-CD-module9-build-job'
 def deployer = 'MNT-CD-module9-deploy-job'
 
-def workspace = manager.build.getEnvVars()["WORKSPACE"]
-String someScript = new File ("${workspace}/scripts/list.groovy").text
+String someScript = readFileFromWorkspace ('scripts/list.groovy')
 
 /**Job Section**/
 
