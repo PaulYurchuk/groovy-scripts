@@ -59,7 +59,7 @@ else {
 
         def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
         def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-        http.client.addRequestInterceptor(authInterceptor)
+        
             println 'pull'
             def httpreq = """ { "action": "coreui_Component",    
     "method":"readAssets",    
@@ -70,8 +70,8 @@ else {
     "tid":15
     } """
 
-
-            http.request(POST, TEXT) { req ->
+               http.client.addRequestInterceptor(authInterceptor)
+               http.request(POST, TEXT) { req ->
                uri.path = '/service/extdirect'
                headers."Content-Type" = "application/json"
                headers.'Accept' = "*/*"
