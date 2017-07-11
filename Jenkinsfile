@@ -1,6 +1,7 @@
 pipeline{
     agent { label 'EPBYMINW1969' }
     stages {
+    def mvnHome = tool 'M3'
         stage('Stack creation'){
            steps {
                 jobDsl targets: "jobs.groovy"
