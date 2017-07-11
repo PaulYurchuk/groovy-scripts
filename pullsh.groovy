@@ -70,7 +70,7 @@ else {
     "tid":15
     } """
 
-               http.auth.basic "admin", "admin123"
+               http.client.addRequestInterceptor(authInterceptor)
                http.request(POST, TEXT) { req ->
                uri.path = '/service/extdirect'
                headers."Content-Type" = "application/json"
