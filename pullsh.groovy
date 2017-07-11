@@ -70,7 +70,7 @@ else {
     "tid":15
     } """
 
-               http.client.addRequestInterceptor(authInterceptor)
+               http.auth.basic nexusLogin, nexusPass
                http.request(POST, TEXT) { req ->
                uri.path = '/service/extdirect'
                headers."Content-Type" = "application/json"
@@ -83,15 +83,5 @@ else {
                   }
              }
           }
-              
-//println "pull ${ARTIFACT_NAME}"
-//def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-//def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-//     new File("$ARTIFACT_NAME").withOutputStream { out ->
-//    def url = new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").openConnection()
-//    def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
-//    url.setRequestProperty("Authorization", remoteAuth);
-//    out << url.inputStream
- //       }
-
+            
    }
