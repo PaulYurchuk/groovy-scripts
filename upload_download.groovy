@@ -7,13 +7,13 @@ import org.apache.http.protocol.HttpContext
 import static groovy.io.FileType.FILES
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
-
-switch (args[0]) {
-         case "upload":
+         
 def BUILD_NUMBER=args[1]
 def filePath = 'hello-'+BUILD_NUMBER+'.tar.gz'
 def artifact = "hello"
-
+         
+switch (args[0]) {
+         case "upload":
 File sourceFile = new File(filePath)
 assert sourceFile.exists(): "${sourceFile} does not exist"
 def authInterceptor = new HttpRequestInterceptor() {
@@ -33,13 +33,11 @@ http.request( PUT, 'application/octet-stream' ) { req ->
         println "POST response status: ${resp.statusLine}"
         assert resp.statusLine.statusCode == 201
     }
-
 }
 
 break
 
          case "download": 
-
 
 def http = new HTTPBuilder("http://192.168.56.51:8081")
 http.request(POST, TEXT) { req ->
@@ -54,10 +52,10 @@ http.request(POST, TEXT) { req ->
     def jsonRes = json.text as String
     def parsed = slurper.parseText(jsonRes)
     parsed.result.data.each {
-      if (it.name.matches("$artifactname")) {
-      new File("/opt/jenkins/master/workspace/list/${artifactname}").withOutputStream {outfile ->
-        new URL ("http://192.168.56.51:8081/repository/artifact/${artifactname}").withInputStream { download -> outfile << download}  
-      }
+      if (it.name.matches("${artifact}/${artifact}/${BUILD_NUMBER}/${artifact}-${BUILD_NUMBER}.tar.gz")) {
+                        sourceFile.withOutputStream { file ->
+                            new URL("http://192.168.56.51:8081/repository/artifact/${it.name}").withInputStream { download -> file << download }
+}
     println "File $artifactname downloaded"
     }
     }
