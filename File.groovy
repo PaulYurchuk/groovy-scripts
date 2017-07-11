@@ -32,7 +32,7 @@ def ARTIFACT_NAME = (options.f)
 //println artifactID
 //println Version
 
-def groupID = "${artifactID}"
+//def groupID = "${artifactID}"
 def username = (options.u ?: "nexus-service-user")
 def password = (options.password ?: "admin123")
 def nexus = (options.h ?: "http://192.168.56.25:8081")
@@ -66,9 +66,9 @@ def cred = "${username}:${password}"
   //                assert resp.statusLine.statusCode == 201
    //          }  
     //  }
-def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-                println "pushing ${artifactID}"
+                println "pushing ${ARTIFACT_ID}"
                 println "pushing ${Vers2}"
                 
 //def File = new File ("groovy/${artifactID}-${Vers2}.tar.gz").getBytes()
@@ -116,7 +116,7 @@ def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
                 
                 
                       println "pull ${ARTIFACT_NAME}"
-def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
      new File("$ARTIFACT_NAME").withOutputStream { out ->
     def url = new URL("${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${ARTIFACT_NAME}").openConnection()
