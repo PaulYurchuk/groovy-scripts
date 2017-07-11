@@ -65,7 +65,7 @@ def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
 out << url.inputStream
-        
+    }        
         
       
       //  def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
