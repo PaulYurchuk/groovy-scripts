@@ -58,9 +58,10 @@ mavenJob("${lord}") {
     goals ('clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
         shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp scripts/pull-push.groovy ./')
-        groovyScriptFile ('pull-push.groovy','Binary')
-        scriptParam('-p push')
-        scriptParam('-a $ARTIFACT_NAME')
+        groovyScriptFile ('pull-push.groovy','Binary') {
+            scriptParam('-p push')
+            scriptParam('-a $ARTIFACT_NAME')
+        }
     }
     publishers {
         archiveArtifacts('*.tar.gz')
