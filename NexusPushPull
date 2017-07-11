@@ -48,5 +48,4 @@ else {
         url.setRequestProperty("Authorization", remoteAuth);
         out << url.inputStream
     }
-    println connection.responseCode
 }
