@@ -22,28 +22,22 @@ mavenJob("${lord}") {
         }
     }
     multiscm {
-        git {
-            github (gitrepo1, branchname)
-            extensions {
-                cloneOptions {
-                    reference ('$WORKSPACE/scripts')
-                }
+        github (gitrepo1, branchname)
+        extensions {
+            cloneOptions {
+                reference ('$WORKSPACE/scripts')
             }
         }
-        git {
-            github (gitrepo2, branchname)
-            extensions {
-                cloneOptions {
-                    reference ('$WORKSPACE/buildp')
-                }
+        github (gitrepo2, branchname)
+        extensions {
+            cloneOptions {
+                reference ('$WORKSPACE/buildp')
             }
         }
-        git {
-            github (gitrepoforked, versionbranch)
-            extensions {
-                cloneOptions {
-                    reference ('$WORKSPACE/jboss-eap')
-                }
+        github (gitrepoforked, versionbranch)
+        extensions {
+            cloneOptions {
+                reference ('$WORKSPACE/jboss-eap')
             }
         }
     }
