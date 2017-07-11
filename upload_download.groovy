@@ -51,13 +51,9 @@ http.request(POST, TEXT) { req ->
     def slurper = new groovy.json.JsonSlurper()
     def jsonRes = json.text as String
     def parsed = slurper.parseText(jsonRes)
-            println parsed
+
     parsed.result.data.each {
-             //println it.name
-             //print it.name.matches("${artifact}/${artifact}/${BUILD_NUMBER}/${artifact}-${BUILD_NUMBER}.tar.gz")
-              println BUILD_NUMBER
-             println it.name.matches(BUILD_NUMBER)
-      if (it.name.matches("${artifact}")) {
+      if (it.name.matches(BUILD_NUMBER)) {
                         sourceFile.withOutputStream { file ->
                             new URL("http://192.168.56.51:8081/repository/artifact/${it.name}").withInputStream { download -> file << download }
 }
