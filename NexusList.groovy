@@ -12,7 +12,7 @@ def httpreq =  """ { "action": "coreui_Component",
     "tid":15
 	} """
 
-def remote = new HTTPBuilder("http://10.6.103.84:8081/")
+def remote = new HTTPBuilder("http://10.6.102.51:8081/")
 
 remote.request(POST, TEXT) { req ->
     uri.path = "/service/extdirect"
@@ -33,7 +33,7 @@ remote.request(POST, TEXT) { req ->
 
         parsed.result.data.each {
             if (it.name.matches(~/.+.tar.gz/)){
-                def myparser = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.lastIndexOf("-")+3)
+                def myparser = it.name.substring(it.name.lastIndexOf("/")+1 , it.name.lastIndexOf("-")+5)
                 listArtifacts.add(myparser)
             }
         }
