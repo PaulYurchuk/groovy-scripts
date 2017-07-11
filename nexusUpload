@@ -8,14 +8,15 @@ def password = "nexus"
 //Authentication section
 def basicAuth = "${user}:${password}".bytes.encodeBase64().toString()
 
-if("$action"=="push"){
+switch (action){
+  	case 'push':
 
 	//Specific push variables section
  	def artifact = env['ARTIFACT_SUFFIX']
 	def version = env['BUILD_NUMBER']
 	def group = "${artifact}"
 	def myFile = new File ("${artifact}-${version}.tar.gz").bytes
-	def urlString = "http://10.6.103.20:8800/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
+	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
 
 
 	def url = new URL(urlString) 
@@ -41,7 +42,9 @@ if("$action"=="push"){
 	headerFields = connection.getHeaderFields() 
 	headerFields.each {println it} 
 
-} else {
+  	break
+      
+	case 'pull':
 
 	//Specific pull variables section
 	def ARTIFACT_NAME = env['ARTIFACT_NAME']
@@ -50,7 +53,7 @@ if("$action"=="push"){
 	def artifact = ARTIFACT_NAME.substring(0, index )
 	def version = ARTIFACT_NAME.substring(index+1, extIndex)
 	def group = "${artifact}"
-	def urlString = "http://10.6.103.20:8800/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
+	def urlString = "http://192.168.56.104:8081/repository/${repository}/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
 	println urlString
   
 	//Pull process
@@ -58,7 +61,12 @@ if("$action"=="push"){
 		def url = new URL(urlString) 
 		def connection = url.openConnection() 
 		connection.setRequestProperty("Authorization", "Basic ${basicAuth}")
-    		url.withInputStream{ download -> Stream << download }
+    	url.withInputStream{ download -> Stream << download }
 		}
-
+	
+  	break
+  	
+    default:
+      	println 'Specify push or pull request'
+		break
 }
