@@ -34,7 +34,7 @@ if("$PULLPUSH"=="push"){
     connection.setRequestProperty( "Accept", "*/*" )
     def writer = new DataOutputStream(connection.outputStream)
     writer.write (File)
-    writer.flush()
+    //writer.flush()
     writer.close()
     println connection.responseCode
 }
