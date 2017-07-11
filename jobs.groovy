@@ -9,8 +9,6 @@ def branchname = 'vtarasiuk'
 /** Setting master-job name*/
 def lord = 'MNT-CD-module9-build-job'
 
-/** Setting list of child job names  (hardcode)*/
-
 
 /**Job Section**/
 
@@ -60,7 +58,7 @@ mavenJob("${lord}") {
     goals ('clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
         shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp $ARTIFACT_NAME.tar.gz ./scripts/')
-        groovyScriptFile ('scripts/pull-push.groovy -p push -a $ARTIFACT_NAME')
+        groovyScriptFile ('scripts/pull-push.groovy -p push -a $ARTIFACT_NAME','Binary')
     }
     publishers {
         archiveArtifacts('*.tar.gz')
