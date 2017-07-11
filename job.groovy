@@ -1,3 +1,4 @@
+//job.groovy
 import jenkins.model.Jenkins
 import hudson.model.FreeStyleProject
 import hudson.tasks.Shell
