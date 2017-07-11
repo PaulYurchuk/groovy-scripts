@@ -101,10 +101,10 @@ mavenJob(builder) {
         shell ("jboss-eap/helloworld/autofill.sh")
     }
     rootPOM ('jboss-eap/helloworld/pom.xml')
-    goals ('clean install -DskipTests')
+    goals ('/home/student/apache-maven-3.5.0/bin/mvn clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
         shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp scripts/pull-push.groovy ./')
-        groovyScriptFile ('pull-push.groovy') {
+        groovyScriptFile ('/home/student/groovy/bin/groovy pull-push.groovy') {
             scriptParam('-p push')
             scriptParam('-a $ARTIFACT_NAME')
         }
