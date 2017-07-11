@@ -12,7 +12,7 @@ def branchname = 'vtarasiuk'
 def builder = 'MNT-CD-module9-build-job'
 def deployer = 'MNT-CD-module9-deploy-job'
 
-String someScript = readFile ('scripts/list.groovy')
+String someScript = readFile ("scripts/list.groovy")
 
 /**Job Section**/
 
