@@ -6,12 +6,11 @@ def gitrepoforked = 'VadzimTarasiuk/jboss-eap-quickstarts'
 def versionbranch = '7.1.0.Beta'
 def branchname = 'vtarasiuk'
 
-
 /** Name Section **/
 
 /** Setting master-job name*/
-def builder = 'EPBYMINW2471/MNT-CD-module9-build-job'
-def deployer = 'EPBYMINW2471/MNT-CD-module9-deploy-job'
+def builder = 'MNT-CD-module9-build-job'
+def deployer = 'MNT-CD-module9-deploy-job'
 
 String someScript = ('''
 //Get list of Artifacts from Nexus3 to Jenkins
@@ -69,7 +68,7 @@ mavenJob(builder) {
         git {
             branch(branchname)
             remote {
-                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepo1)
             }
             extensions {
@@ -79,7 +78,7 @@ mavenJob(builder) {
         git {
             branch(branchname)
             remote {
-                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepo2)
             }
             extensions {
@@ -89,7 +88,7 @@ mavenJob(builder) {
         git {
             branch(versionbranch)
             remote {
-                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepoforked)
             }
             extensions {
@@ -101,10 +100,10 @@ mavenJob(builder) {
         shell ("jboss-eap/helloworld/autofill.sh")
     }
     rootPOM ('jboss-eap/helloworld/pom.xml')
-    goals ('/home/student/apache-maven-3.5.0/bin/mvn clean install -DskipTests')
+    goals ('clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
         shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp scripts/pull-push.groovy ./')
-        groovyScriptFile ('/home/student/groovy/bin/groovy pull-push.groovy') {
+        groovyScriptFile ('pull-push.groovy','Binary') {
             scriptParam('-p push')
             scriptParam('-a $ARTIFACT_NAME')
         }
@@ -128,7 +127,7 @@ job (deployer){
         git {
             branch(branchname)
             remote {
-                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github(gitrepo1)
             }
             extensions {
@@ -138,7 +137,7 @@ job (deployer){
         git {
             branch(branchname)
             remote {
-                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github(gitrepo2)
             }
             extensions {
@@ -148,11 +147,33 @@ job (deployer){
     }
     steps {
         shell ('cp scripts/pull-push.groovy ./')
-        groovyScriptFile('pull-push.groovy') {
+        groovyScriptFile('pull-push.groovy', 'Binary') {
             scriptParam('-p pull')
             scriptParam('-a $ARTIFACT_NAME')
         }
         shell ('tar -xzf $ARTIFACT_NAME')
+        publishOverSsh {
+            server('Tomcat') {
+                credentials('vagrant'){
+                    pathToKey('/opt/jenkins/master/id_rsa')
+                }
+                transferSet {
+                    execCommand('rm -rf /opt/tomcat/webapps/helloworld.war')
+                }
+            }
+        }
+        publishOverSsh {
+            server('Tomcat') {
+                credentials('vagrant'){
+                    pathToKey('/opt/jenkins/master/id_rsa')
+                }
+                transferSet {
+                    sourceFiles('helloworld.war')
+                    remoteDirectory('/opt/tomcat/webapps')
+                    execCommand('mv /home/vagrant/opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps')
+                }
+            }
+        }
     }
     publishers {
             archiveArtifacts('*.tar.gz')

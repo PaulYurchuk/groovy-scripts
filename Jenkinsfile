@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'EPBYMINW1969' }
+    agent any
     stages {
         stage('Stack creation'){
            steps {
@@ -15,7 +15,7 @@ pipeline{
         stage('Get list and Deploy') {
             steps {
                 build job: 'MNT-CD-module9-deploy-job',
-                parameters: [string(name: 'ARTIFACT_NAME', value: 'helloworld-100.tar.gz')]
+                parameters: [string(name: 'ARTIFACT_NAME', value: 'helloworld-13')]
             }
         }
     }
