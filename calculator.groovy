@@ -1,8 +1,6 @@
 /**
  * calculator.groovy Created by student on 7/7/17.
  */
-
-
 enum Operator {
     PLUS('+', 0, { a, b -> a + b }),
     MINUS('-', 0, { a, b -> a - b }),
@@ -117,9 +115,3 @@ def computeInfix(infixExpression) {
 def infixExpression = '5.5 + ((6 + 2) * 4) - -3 * 1.5'
 def expectedResult = 42
 assert computeInfix(infixExpression) == expectedResult
-
-
-
-
-
-
