@@ -68,7 +68,7 @@ mavenJob(builder) {
         git {
             branch(branchname)
             remote {
-                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepo1)
             }
             extensions {
@@ -78,7 +78,7 @@ mavenJob(builder) {
         git {
             branch(branchname)
             remote {
-                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepo2)
             }
             extensions {
@@ -88,7 +88,7 @@ mavenJob(builder) {
         git {
             branch(versionbranch)
             remote {
-                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepoforked)
             }
             extensions {
@@ -103,7 +103,7 @@ mavenJob(builder) {
     goals ('clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
         shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp scripts/pull-push.groovy ./')
-        groovyScriptFile ('pull-push.groovy','Binary') {
+        groovyScriptFile ('pull-push.groovy') {
             scriptParam('-p push')
             scriptParam('-a $ARTIFACT_NAME')
         }
@@ -127,7 +127,7 @@ job (deployer){
         git {
             branch(branchname)
             remote {
-                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github(gitrepo1)
             }
             extensions {
@@ -137,7 +137,7 @@ job (deployer){
         git {
             branch(branchname)
             remote {
-                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
+                //credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github(gitrepo2)
             }
             extensions {
@@ -147,15 +147,15 @@ job (deployer){
     }
     steps {
         shell ('cp scripts/pull-push.groovy ./')
-        groovyScriptFile('pull-push.groovy', 'Binary') {
+        groovyScriptFile('pull-push.groovy') {
             scriptParam('-p pull')
             scriptParam('-a $ARTIFACT_NAME')
         }
         shell ('tar -xzf $ARTIFACT_NAME')
         publishOverSsh {
             server('Tomcat') {
-                credentials('vagrant'){
-                    pathToKey('/opt/jenkins/master/id_rsa')
+                credentials('student'){
+                    pathToKey('/home/student/.ssh/id_rsa')
                 }
                 transferSet {
                     execCommand('rm -rf /opt/tomcat/webapps/helloworld.war')
@@ -164,8 +164,8 @@ job (deployer){
         }
         publishOverSsh {
             server('Tomcat') {
-                credentials('vagrant'){
-                    pathToKey('/opt/jenkins/master/id_rsa')
+                credentials('student'){
+                    pathToKey('/home/student/.ssh/id_rsa')
                 }
                 transferSet {
                     sourceFiles('helloworld.war')
