@@ -34,4 +34,4 @@ parsed.result.data.each {
     }
 }
 
-listArtifacts.reverse()
+return listArtifacts.reverse()
