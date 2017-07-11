@@ -4,7 +4,7 @@ import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
 
-def http = new HTTPBuilder("http://192.168.56.51:8081")
+def http = new HTTPBuilder("http://10.6.103.32:8081")
 http.request(POST, TEXT) { req ->
   	uri.path='/service/extdirect'  	 
   	headers.'Content-Type'="application/json" 
@@ -23,7 +23,7 @@ http.request(POST, TEXT) { req ->
         listArtifacts.add(it.name)}
     }
     println "Got response"
-    println listArtifacts
+    listArtifacts
   }
   
   response.failure ={resp, json ->
