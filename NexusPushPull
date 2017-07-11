@@ -13,16 +13,17 @@ if (!options) {
 def  ARTIFACT_NAME= options.a
 def PULLPUSH = options.p
 
-def cred = "user:user"
-def repo = "maven-hosted"
+def cred = "nexus-service-user:user"
+def repo = "maven-releases"
 def way = "http://192.168.56.104:8081"
 
 if("$PULLPUSH"=="push"){
 
     println "push ${ARTIFACT_NAME}"
-    def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+    //def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
     def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
-    def File = new File ("${ARTIFACT_NAME}-${BUILD_NUMBER}.tar.gz").getBytes()
+    println BUILD_NUMBER
+    def File = new File ("${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz").getBytes()
     def connection = new URL( "${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_SUFFIX}-${BUILD_NUMBER}.tar.gz" )
             .openConnection() as HttpURLConnection
     def auth = "${cred}".getBytes().encodeBase64().toString()
