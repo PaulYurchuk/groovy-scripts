@@ -61,7 +61,9 @@ else {
         def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
         
             println 'pull'
-            http.auth.basic username, password
+                def nexusLogin = "admin"
+                def nexusPass = "admin123"
+                http.auth.basic nexusLogin, nexusPass
                http.request(POST, TEXT) { req ->
                uri.path = '/service/extdirect'
                headers."Content-Type" = "application/json"
