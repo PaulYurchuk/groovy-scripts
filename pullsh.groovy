@@ -44,19 +44,19 @@ def cred = "${username}:${password}"
 def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
 def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
-//def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
-//        .openConnection() as HttpURLConnection
-//def auth = "${cred}".getBytes().encodeBase64().toString()
-//connection.setRequestMethod("PUT")
-//connection.doOutput = true
-//connection.setRequestProperty("Authorization" , "Basic ${auth}")
-//connection.setRequestProperty( "Content-Type", "application/octet-stream" )
-//connection.setRequestProperty( "Accept", "*/*" )
-//def writer = new DataOutputStream(connection.outputStream)
-//writer.write (File)
-//writer.flush()
-//writer.close()
-//println connection.responseCode
+def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
+        .openConnection() as HttpURLConnection
+def auth = "${cred}".getBytes().encodeBase64().toString()
+connection.setRequestMethod("PUT")
+connection.doOutput = true
+connection.setRequestProperty("Authorization" , "Basic ${auth}")
+connection.setRequestProperty( "Content-Type", "application/octet-stream" )
+connection.setRequestProperty( "Accept", "*/*" )
+def writer = new DataOutputStream(connection.outputStream)
+writer.write (File)
+writer.flush()
+writer.close()
+println connection.responseCode
 }
 else {
 //        http.client.addRequestInterceptor(authInterceptor)
