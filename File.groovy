@@ -49,7 +49,12 @@ def cred = "${username}:${password}"
 //}
 
         if("$choice"=="push"){
-                println "pushing ${ARTIFACT_NAME}" 
+                println "pushing ${ARTIFACT_NAME}"
+                println "pushing ${groupID}"
+                println "pushing ${nexus}"
+                println "pushing ${choice}"
+                println "pushing ${repo}"
+                println "pushing ${cred}"
 //        http.client.addRequestInterceptor(authInterceptor)
   //        http.request(PUT, 'application/octet-stream') { req ->
    //           uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
@@ -63,6 +68,9 @@ def cred = "${username}:${password}"
     //  }
 def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Version = ARTIFACT_NAME.replaceAll("\\D+","")
+                println "pushing ${artifactID}"
+                println "pushing ${Version}"
+                
 def File = new File ("${artifactID}-${Version}.tar.gz").getBytes()
 def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz" )
         .openConnection() as HttpURLConnection
