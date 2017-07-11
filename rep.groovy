@@ -19,7 +19,7 @@ def PULLPUSH = options.p
 
 def cred = "nexus-service-user:nXs"
 def repo = "project-releases"
-def way = "http://nexus"
+def way = "http://nexus:8081"
 
 if("$PULLPUSH"=="push"){
 	println "push ${ARTIFACT_NAME}"
