@@ -51,6 +51,7 @@ http.request(POST, TEXT) { req ->
     def slurper = new groovy.json.JsonSlurper()
     def jsonRes = json.text as String
     def parsed = slurper.parseText(jsonRes)
+            println parsed
     parsed.result.data.each {
       if (it.name.matches("${artifact}/${artifact}/${BUILD_NUMBER}/${artifact}-${BUILD_NUMBER}.tar.gz")) {
                         sourceFile.withOutputStream { file ->
