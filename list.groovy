@@ -1,5 +1,5 @@
 //Get list of Artifacts from Nexus3 to Jenkins
-def nexusURL = "http://localhost:52471"
+def nexusURL = "http://localhost:8081"
 def repo = "project-releases"
 def cred = "nexus-service-user:jenkins"
 def query = """ { "action": "coreui_Component",    "method":"readAssets",    "data":[{"page":"1", "start":"0",    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    "filter":[{"property":"repositoryName","value":"${repo}"}]}],    "type":"rpc",    "tid":15	} """
