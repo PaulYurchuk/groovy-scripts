@@ -158,7 +158,7 @@ job (deployer){
                     pathToKey('/opt/jenkins/master/id_rsa')
                 }
                 transferSet {
-                    execCommand('rm -rf /opt/tomcat/webapps/helloworld.old && mv /opt/tomcat/webapps/helloworld /opt/tomcat/webapps/helloworld.old')
+                    execCommand('rm -rf /opt/tomcat/webapps/helloworld*')
                     sourceFiles('helloworld.war')
                     remoteDirectory('/opt/tomcat/webapps')
                     //execCommand('mv /root/opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps/')
