@@ -67,12 +67,12 @@ def cred = "${username}:${password}"
    //          }  
     //  }
 def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-def Version = ARTIFACT_NAME.replaceAll("\\D+","")
+def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
                 println "pushing ${artifactID}"
-                println "pushing ${Version}"
+                println "pushing ${Vers2}"
                 
-def File = new File ("${artifactID}-${Version}.tar.gz").getBytes()
-def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz" )
+def File = new File ("${artifactID}-${Vers2}.tar.gz").getBytes()
+def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
         .openConnection() as HttpURLConnection
 def auth = "${cred}".getBytes().encodeBase64().toString()
 connection.setRequestMethod("PUT")
@@ -117,9 +117,9 @@ println connection.responseCode
                 
                       println "pull ${ARTIFACT_NAME}"
 def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
-def Version = ARTIFACT_NAME.replaceAll("\\D+","")
+def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
      new File("$ARTIFACT_NAME").withOutputStream { out ->
-    def url = new URL("${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${ARTIFACT_NAME}").openConnection()
+    def url = new URL("${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${ARTIFACT_NAME}").openConnection()
     def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
     url.setRequestProperty("Authorization", remoteAuth);
     out << url.inputStream
