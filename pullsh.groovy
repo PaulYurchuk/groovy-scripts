@@ -1,3 +1,13 @@
+@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2')
+
+import groovyx.net.http.HTTPBuilder
+import org.apache.http.HttpRequest
+import org.apache.http.HttpRequestInterceptor
+import org.apache.http.protocol.HttpContext
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
+
+
 CliBuilder cli = new CliBuilder(
         usage: 'groovy pullsh.groovy -e {pull|push} -u {user} -p {password} -f {ARTIFACT_NAME} -n {repoName} [-h {nx3Url}]')
 cli.with {
@@ -22,42 +32,46 @@ def repo = (options.r ?: "project-releases")
 def cred = "${username}:${password}"
 
 
-//def http = new HTTPBuilder("$nexus")
-//def authInterceptor = new HttpRequestInterceptor() {
-//   void process(HttpRequest httpRequest, HttpContext httpContext) {
-//       httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
-//}
-//}
+def http = new HTTPBuilder("$nexus")
+def authInterceptor = new HttpRequestInterceptor() {
+   void process(HttpRequest httpRequest, HttpContext httpContext) {
+       httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
+}
+}
 
         if("$choice"=="push"){
-//        http.client.addRequestInterceptor(authInterceptor)
-  //        http.request(PUT, 'application/octet-stream') { req ->
-   //           uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
-  //            headers."Content-Type"="application/octet-stream"
-  //            headers."Accept"="*/*"
-  //            body = ourFile.bytes
-  //            response.success = { resp ->
-  //                println "POST response status: ${resp.statusLine}"
-  //                assert resp.statusLine.statusCode == 201
-   //          }  
-    //  }
 def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
-def connection = new URL( "${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_ID}-${Vers2}.tar.gz" )
-        .openConnection() as HttpURLConnection
-def auth = "${cred}".getBytes().encodeBase64().toString()
-connection.setRequestMethod("PUT")
-connection.doOutput = true
-connection.setRequestProperty("Authorization" , "Basic ${auth}")
-connection.setRequestProperty( "Content-Type", "application/octet-stream" )
-connection.setRequestProperty( "Accept", "*/*" )
-def writer = new DataOutputStream(connection.outputStream)
-writer.write (File)
-writer.flush()
-writer.close()
-println connection.responseCode
-}
+def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz")                
+        http.client.addRequestInterceptor(authInterceptor)
+          http.request(PUT, 'application/octet-stream') { req ->
+              uri.path = "/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_ID}-${Vers2}.tar.gz"
+              headers."Content-Type"="application/octet-stream"
+              headers."Accept"="*/*"
+              body = File.bytes
+             response.success = { resp ->
+                  println "POST response status: ${resp.statusLine}"
+                  assert resp.statusLine.statusCode == 201
+             }  
+      }
+//def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+//def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
+//def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
+//def connection = new URL( "${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_ID}-${Vers2}.tar.gz" )
+//        .openConnection() as HttpURLConnection
+//def auth = "${cred}".getBytes().encodeBase64().toString()
+//connection.setRequestMethod("PUT")
+//connection.doOutput = true
+//connection.setRequestProperty("Authorization" , "Basic ${auth}")
+//connection.setRequestProperty( "Content-Type", "application/octet-stream" )
+//connection.setRequestProperty( "Accept", "*/*" )
+//def writer = new DataOutputStream(connection.outputStream)
+//writer.write (File)
+//writer.flush()
+//writer.close()
+//println connection.responseCode
+
+        }
 else {
 //        http.client.addRequestInterceptor(authInterceptor)
 //            println 'pull'
