@@ -26,7 +26,7 @@ mavenJob("${lord}") {
             github (gitrepo1, branchname)
             extensions {
                 cloneOptions {
-                    reference ('$WORKSPACE/groovy')
+                    reference ('$WORKSPACE/scripts')
                 }
             }
         }
@@ -54,7 +54,7 @@ mavenJob("${lord}") {
     goals ('clean install -DskipTests')
     postBuildSteps ('SUCCESS') {
         shell('tar -zcvf $ARTIFACT_NAME.tar.gz -C jboss-eap/helloworld/target/ helloworld.war && cp $ARTIFACT_NAME.tar.gz ./scripts/')
-        groovyScriptFile ('pull-push.groovy -p push -a $ARTIFACT_NAME')
+        groovyScriptFile ('scripts/pull-push.groovy -p push -a $ARTIFACT_NAME')
     }
     publishers {
         archiveArtifacts('*.tar.gz')
