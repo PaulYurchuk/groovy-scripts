@@ -62,6 +62,8 @@ return listArtifacts
 /** Create Master job*/
 mavenJob(builder) {
     parameters {
+        stringParam('ARTIFACT_SUFFIX', 'helloworld', 'Artifact name: suffix')
+        stringParam('BUILD_NUMBER', '$BUILD_NUMBER', 'Artifact name: build Number')
         stringParam('ARTIFACT_NAME', 'helloworld-$BUILD_NUMBER', 'Artifact name: suffix + build Number')
     }
     multiscm {
