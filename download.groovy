@@ -11,7 +11,7 @@ if (!options) {
 def  ARTIFACT_NAME= options.a
 def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))     
 def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
-def cred = "nexus-service-user:jenkins"
+def cred = "jenkins:123"
 def repo = "project-releases"
 def way = "http://192.168.50.222:8081"
 
