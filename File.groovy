@@ -39,57 +39,85 @@ def password = (options.password ?: "admin123")
 def nexus = (options.h ?: "http://192.168.56.25:8081")
 def choice = (options.e)
 def repo = (options.r ?: "project-releases")
-def filePath = "${ARTIFACT_NAME}"
+def cred = "${username}:${password}"
 
 
-def ourFile = new File ("${artifactID}-${Version}.tar.gz").getBytes()
-def http = new HTTPBuilder("$nexus")
-def authInterceptor = new HttpRequestInterceptor() {
-    void process(HttpRequest httpRequest, HttpContext httpContext) {
-        httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
-    }
-}
+//def http = new HTTPBuilder("$nexus")
+//def authInterceptor = new HttpRequestInterceptor() {
+//   void process(HttpRequest httpRequest, HttpContext httpContext) {
+//       httpRequest.addHeader('Authorization', 'Basic ' + "${username}:${password}".bytes.encodeBase64().toString())
+//}
+//}
 
         if("$choice"=="push"){
                 println "pushing ${ARTIFACT_NAME}" 
-        http.client.addRequestInterceptor(authInterceptor)
-          http.request(PUT, 'application/octet-stream') { req ->
-              uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
-              headers."Content-Type"="application/octet-stream"
-              headers."Accept"="*/*"
-              body = ourFile.bytes
-              response.success = { resp ->
-                  println "POST response status: ${resp.statusLine}"
-                  assert resp.statusLine.statusCode == 201
-             }
-        }
+//        http.client.addRequestInterceptor(authInterceptor)
+  //        http.request(PUT, 'application/octet-stream') { req ->
+   //           uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
+  //            headers."Content-Type"="application/octet-stream"
+  //            headers."Accept"="*/*"
+  //            body = ourFile.bytes
+  //            response.success = { resp ->
+  //                println "POST response status: ${resp.statusLine}"
+  //                assert resp.statusLine.statusCode == 201
+   //          }  
+    //  }
 
+def File = new File ("${artifactID}-${Version}.tar.gz").getBytes()
+def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz" )
+        .openConnection() as HttpURLConnection
+def auth = "${cred}".getBytes().encodeBase64().toString()
+connection.setRequestMethod("PUT")
+connection.doOutput = true
+connection.setRequestProperty("Authorization" , "Basic ${auth}")
+connection.setRequestProperty( "Content-Type", "application/octet-stream" )
+connection.setRequestProperty( "Accept", "*/*" )
+def writer = new DataOutputStream(connection.outputStream)
+writer.write (File)
+writer.flush()
+writer.close()
+println connection.responseCode
+                
 
         }else {
-        http.client.addRequestInterceptor(authInterceptor)
-            println 'pull'
-            def httpreq = """ { "action": "coreui_Component",    
-    "method":"readAssets",    
-    "data":[{"page":"1", "start":"0",
-    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
-    "filter":[{"property":"repositoryName","value":"${repo}"}]}],
-    "type":"rpc",
-    "tid":15
-    } """
+//        http.client.addRequestInterceptor(authInterceptor)
+//            println 'pull'
+//            def httpreq = """ { "action": "coreui_Component",    
+//    "method":"readAssets",    
+//    "data":[{"page":"1", "start":"0",
+//    "limit":"300", "sort":[{"property":"name","direction":"ASC"}],    
+//    "filter":[{"property":"repositoryName","value":"${repo}"}]}],
+//    "type":"rpc",
+//    "tid":15
+//    } """
 
 
-            http.request(POST, TEXT) { req ->
-                uri.path = '/service/extdirect'
-                headers."Content-Type" = "application/json"
-                headers.'Accept' = "*/*"
-               body = httpreq
-                headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
-                response.success = { resp, json ->
-                    new File(ARTIFACT_NAME).withOutputStream { file ->
-                       new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
-                    }
-               }
+//            http.request(POST, TEXT) { req ->
+ //               uri.path = '/service/extdirect'
+ //               headers."Content-Type" = "application/json"
+ //               headers.'Accept' = "*/*"
+ //              body = httpreq
+ //               headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
+  //              response.success = { resp, json ->
+  //                  new File(ARTIFACT_NAME).withOutputStream { file ->
+  //                     new URL("${nexus}/repository/${repo}/${groupID}/${artifactID}/${Version}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
+  //                  }
+  //             }
             }
 
+                
+                
+                      println "pull ${ARTIFACT_NAME}"
+//def artifactID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+//def Version = ARTIFACT_NAME.replaceAll("\\D+","")
+     new File("$ARTIFACT_NAME").withOutputStream { out ->
+    def url = new URL("${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Version}/${ARTIFACT_NAME}").openConnection()
+    def remoteAuth = "Basic " + "${cred}".bytes.encodeBase64()
+    url.setRequestProperty("Authorization", remoteAuth);
+    out << url.inputStream
+}
+                
+                
+                
 
         }
