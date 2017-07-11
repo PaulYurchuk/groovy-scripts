@@ -1,16 +1,5 @@
-//@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2')
-
-//import groovyx.net.http.HTTPBuilder
-//import static groovyx.net.http.ContentType.*
-//import static groovyx.net.http.Method.*
-//import org.apache.http.HttpRequestInterceptor
-//import org.apache.http.protocol.HttpContext
-//import org.apache.http.HttpRequest
-
-
-
 CliBuilder cli = new CliBuilder(
-        usage: 'groovy file.groovy -e {pull|push} -u {user} -p {password} -f {ARTIFACT_NAME} -n {repoName} [-h {nx3Url}]')
+        usage: 'groovy pullsh.groovy -e {pull|push} -u {user} -p {password} -f {ARTIFACT_NAME} -n {repoName} [-h {nx3Url}]')
 cli.with {
     e longOpt: 'execute', args: 1,  required: true, values: ['pull','push'], 'pull for download | push for upload'
     u longOpt: 'username', args: 1, 'User with permissions to upload to the target repo'
@@ -24,15 +13,7 @@ def options = cli.parse(args)
 if (!options) {
     return
 }
-
-
 def ARTIFACT_NAME = (options.f)
-
-
-//println artifactID
-//println Version
-
-//def groupID = "${artifactID}"
 def username = (options.u ?: "nexus-service-user")
 def password = (options.password ?: "admin123")
 def nexus = (options.h ?: "http://192.168.56.25:8081")
@@ -49,12 +30,6 @@ def cred = "${username}:${password}"
 //}
 
         if("$choice"=="push"){
-                println "pushing ${ARTIFACT_NAME}"
-        //        println "pushing ${ARTIFACT_ID}"
-                println "pushing ${nexus}"
-                println "pushing ${choice}"
-                println "pushing ${repo}"
-                println "pushing ${cred}"
 //        http.client.addRequestInterceptor(authInterceptor)
   //        http.request(PUT, 'application/octet-stream') { req ->
    //           uri.path = "/repository/${repo}/${groupID}/${artifactID}/${Version}/${artifactID}-${Version}.tar.gz"
@@ -68,9 +43,6 @@ def cred = "${username}:${password}"
     //  }
 def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
-                println "pushing ${ARTIFACT_ID}"
-                println "pushing ${Vers2}"
-                
 def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
 //def connection = new URL( "${nexus}/repository/${repo}/${artifactID}/${artifactID}/${Vers2}/${artifactID}-${Vers2}.tar.gz" )
 //        .openConnection() as HttpURLConnection
@@ -85,9 +57,8 @@ def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
 //writer.flush()
 //writer.close()
 //println connection.responseCode
-                
-
-        }else {
+}
+else {
 //        http.client.addRequestInterceptor(authInterceptor)
 //            println 'pull'
 //            def httpreq = """ { "action": "coreui_Component",    
@@ -112,10 +83,8 @@ def File = new File ("${ARTIFACT_ID}-${Vers2}.tar.gz").getBytes()
   //                  }
   //             }
   //          }
-
-                
-                
-                      println "pull ${ARTIFACT_NAME}"
+              
+println "pull ${ARTIFACT_NAME}"
 def ARTIFACT_ID = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
 def Vers2 = ARTIFACT_NAME.replaceAll("\\D+","")
      new File("$ARTIFACT_NAME").withOutputStream { out ->
