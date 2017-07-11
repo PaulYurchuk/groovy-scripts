@@ -30,7 +30,7 @@ remote.request(POST, TEXT) { req ->
         def parsed = slurper.parseText(jsonRes)
         parsed.result.data.each { if (it.name.matches(~/.+.tar.gz/)) listArtifacts.add(it.name) }
         println(listArtifacts[-1])
-        download("http://nexus/repository/Artifact-storage/"+listArtifacts[-1], "./*.tar.gz")
+        download("http://192.168.56.24:8081/repository/Artifact-storage/"+listArtifacts[-1], "./*.tar.gz")
     }
     cl
 }
