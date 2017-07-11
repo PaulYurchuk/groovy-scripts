@@ -13,8 +13,13 @@ switch (args[0]) {
          
 def filePath = "./"
 def group = "hello"
-def artifact = "hello-${BUILD_NUMBER}.tar.gz"
+def artifact = "hello-$BUILD_NUMBER.tar.gz"
 def version = "1.0"
+         echo ${BUILD_NUMBER}
+         echo '${BUILD_NUMBER}'
+         echo "${BUILD_NUMBER}"
+         echo $BUILD_NUMBER
+         echo BUILD_NUMBER
          
 File sourceFile = new File(filePath)
 assert sourceFile.exists(): "${sourceFile} does not exist"
