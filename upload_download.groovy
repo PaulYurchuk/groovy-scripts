@@ -10,13 +10,7 @@ import static groovyx.net.http.Method.*
 
 switch (args[0]) {
          case "upload":
-
-def filePath = "/opt/jenkins/master/artifacts/hello-28.tar.gz"
-def group = "hello"
-def artifact = "hello_28"
-def version = "1.0"
-
-
+         
 File sourceFile = new File(filePath)
 assert sourceFile.exists(): "${sourceFile} does not exist"
 def authInterceptor = new HttpRequestInterceptor() {
@@ -53,7 +47,6 @@ http.request(POST, TEXT) { req ->
     headers.'Authorization'="Basic ${"nexus:nexus".bytes.encodeBase64().toString()}"
        
    response.success ={resp, json ->
-    def artifactname="helloworld-34.tar.gz"
     def slurper = new groovy.json.JsonSlurper()
     def jsonRes = json.text as String
     def parsed = slurper.parseText(jsonRes)
