@@ -75,7 +75,6 @@ else {
     "tid":15
     } """
                headers.'Authorization'="Basic ${"admin:admin123".bytes.encodeBase64().toString()}"       
-               //headers.'Authorization' = "Basic ${"${username}:${password}".bytes.encodeBase64().toString()}"
               response.success = { resp, json ->
                   new File(ARTIFACT_NAME).withOutputStream { file ->
                      new URL("${nexus}/repository/${repo}/${ARTIFACT_ID}/${ARTIFACT_ID}/${Vers2}/${ARTIFACT_NAME}").withInputStream { download -> file << download }
