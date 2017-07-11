@@ -149,7 +149,7 @@ job (deployer){
         shell ('cp scripts/pull-push.groovy ./')
         groovyScriptFile('pull-push.groovy', 'Binary') {
             scriptParam('-p pull')
-            scriptParam('-a $ARTIFACT_NAME.tar.gz')
+            scriptParam('-a $ARTIFACT_NAME')
         }
         shell ('tar -xzf $ARTIFACT_NAME')
         publishOverSsh {
