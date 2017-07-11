@@ -23,27 +23,30 @@ mavenJob("${lord}") {
     }
     multiscm {
         git {
+            branch(branchname)
             remote {
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepo1)
-                name (branchname)
             }
             extensions {
                 relativeTargetDirectory('$WORKSPACE/scripts')
             }
         }
         git {
+            branch(branchname)
             remote {
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepo2)
-                name (branchname)
             }
             extensions {
                 relativeTargetDirectory('$WORKSPACE/buildp')
             }
         }
         git {
+            branch(versionbranch)
             remote {
+                credentials('b50d63c2-8c84-4d1c-b557-4ee892a1591f')
                 github (gitrepoforked)
-                name (versionbranch)
             }
             extensions {
                 relativeTargetDirectory('$WORKSPACE/jboss-eap')
