@@ -21,7 +21,7 @@ File sourceFile = new File(filePath)
 assert sourceFile.exists(): "${sourceFile} does not exist"
 def authInterceptor = new HttpRequestInterceptor() {
     void process(HttpRequest httpRequest, HttpContext httpContext) {
-        httpRequest.addHeader('Authorization'="Basic ${"nexus:nexus".bytes.encodeBase64().toString()}")
+        httpRequest.addHeader('Authorization', 'Basic ' + "nexus:nexus".bytes.encodeBase64().toString())
     }
 }
 println "pushing ${sourceFile.name}"
