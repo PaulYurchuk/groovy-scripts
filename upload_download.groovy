@@ -27,7 +27,7 @@ println "pushing ${sourceFile.name}"
 def http = new HTTPBuilder( "http://192.168.56.51:8081" )
 http.client.addRequestInterceptor(authInterceptor)
 http.request( PUT, 'application/octet-stream' ) { req ->
-    uri.path = "/repository/artifact/${group}/${artifact}/${version}/${artifact}-${version}.tar.gz"
+    uri.path = "/repository/artifact/${artifact}/${artifact}/${BUILD_NUMBER}/${artifact}-${BUILD_NUMBER}.tar.gz"
     headers."Content-Type"="application/octet-stream"
     headers."Accept"="*/*"
     body = sourceFile.bytes
