@@ -40,7 +40,7 @@ if("$PULLPUSH"=="push"){
 }
 else {
     println "pull ${ARTIFACT_NAME}"
-    def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(0, ARTIFACT_NAME.lastIndexOf("-"))
+    def ARTIFACT_SUFFIX = ARTIFACT_NAME.substring(ARTIFACT_NAME.lastIndexOf("/")+1, ARTIFACT_NAME.lastIndexOf("-"))
     def BUILD_NUMBER = ARTIFACT_NAME.replaceAll("\\D+","")
     new File("$ARTIFACT_NAME").withOutputStream { out ->
         def url = new URL("${way}/repository/${repo}/${ARTIFACT_SUFFIX}/${ARTIFACT_SUFFIX}/${BUILD_NUMBER}/${ARTIFACT_NAME}").openConnection()
