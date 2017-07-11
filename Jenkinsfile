@@ -15,7 +15,7 @@ pipeline{
         stage('Get list and Deploy') {
             steps {
                 build job: 'MNT-CD-module9-deploy-job',
-                parameters: [string(name: 'ARTIFACT_NAME', value: '$ARTIFACT_NAME')]
+                parameters: [string(name: 'ARTIFACT_NAME', value: 'helloworld-13.tar.gz')]
             }
         }
     }

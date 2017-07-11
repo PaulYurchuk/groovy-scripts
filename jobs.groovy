@@ -154,7 +154,9 @@ job (deployer){
         shell ('tar -xzf $ARTIFACT_NAME')
         publishOverSsh {
             server('Tomcat') {
-                credentials('root:vagrant')
+                credentials('root'){
+                    key('f8930ed6-6d6c-4304-8acc-35f0488f7aa6')
+                }
                 transferSet {
                     execCommand('rm -rf /opt/tomcat/webapps/helloworld.old && mv /opt/tomcat/webapps/helloworld /opt/tomcat/webapps/helloworld.old')
                     sourceFiles('helloworld.war')
