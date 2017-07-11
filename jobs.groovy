@@ -10,8 +10,8 @@ def branchname = 'vtarasiuk'
 /** Name Section **/
 
 /** Setting master-job name*/
-def builder = 'MNT-CD-module9-build-job'
-def deployer = 'MNT-CD-module9-deploy-job'
+def builder = 'EPBYMINW2471/MNT-CD-module9-build-job'
+def deployer = 'EPBYMINW2471/MNT-CD-module9-deploy-job'
 
 String someScript = ('''
 //Get list of Artifacts from Nexus3 to Jenkins
