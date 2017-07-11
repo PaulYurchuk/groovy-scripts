@@ -151,7 +151,7 @@ job (deployer){
             scriptParam('-p pull')
             scriptParam('-a $ARTIFACT_NAME')
         }
-        shell ('tar -xzf $ARTIFACT_NAME.tar.gz')
+        shell ('tar -xzf $ARTIFACT_NAME')
         publishOverSsh {
             server('Tomcat') {
                 credentials('root'){
