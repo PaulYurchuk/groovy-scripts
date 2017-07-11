@@ -38,7 +38,7 @@ http.request( PUT, 'application/octet-stream' ) { req ->
 break
 
          case "download": 
-File sourceFile = new File(filePath)
+File sourceFile = new File("hello.tar.gz")
 def http = new HTTPBuilder("http://192.168.56.51:8081")
 http.request(POST, TEXT) { req ->
   	uri.path='/service/extdirect'  	 
