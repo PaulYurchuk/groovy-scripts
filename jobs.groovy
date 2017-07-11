@@ -158,7 +158,7 @@ job (deployer){
                     pathToKey('/opt/jenkins/master/id_rsa')
                 }
                 transferSet {
-                    execCommand('rm -rf /opt/tomcat/webapps/helloworld*')
+                    execCommand('if [-e /opt/tomcat/webapps/helloworld.war] then mv /opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps/helloworld.war.old fi && rm -rf /opt/tomcat/webapps/helloworld.war')
                 }
             }
         }
@@ -170,6 +170,7 @@ job (deployer){
                 transferSet {
                     sourceFiles('helloworld.war')
                     remoteDirectory('/opt/tomcat/webapps')
+                    execCommand('mv /home/vagrant/opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps')
                 }
             }
         }
