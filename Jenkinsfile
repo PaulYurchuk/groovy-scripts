@@ -6,16 +6,10 @@ pipeline{
                 jobDsl targets: "jobs.groovy"
             }
         }
-        stage('Build and upload') {
+        stage('Build and upload; Downstream: Get list and Deploy') {
             steps {
                 build job: 'MNT-CD-module9-build-job',
                 parameters: [string(name: 'ARTIFACT_NAME', value: 'helloworld-$BUILD_NUMBER')]
-            }
-        }
-        stage('Get list and Deploy') {
-            steps {
-                build job: 'MNT-CD-module9-deploy-job',
-                parameters: [string(name: 'ARTIFACT_NAME', value: String.valueOf(ARTIFACT_NAME))]
             }
         }
     }

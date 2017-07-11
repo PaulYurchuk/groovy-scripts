@@ -110,6 +110,18 @@ mavenJob(builder) {
     }
     publishers {
         archiveArtifacts('*.tar.gz')
+        downstreamParameterized {
+            trigger(deployer) {
+                block {
+                    buildStepFailure('FAILURE')
+                    failure('FAILURE')
+                    unstable('UNSTABLE')
+                }
+                parameters {
+                    currentBuild()
+                }
+            }
+        }
     }
 }
 /** Job for deploy*/
