@@ -12,7 +12,7 @@ def httpreq =  """ { "action": "coreui_Component",
     "tid":15
 	} """
 
-def remote = new HTTPBuilder("http://192.168.56.104:8081/")
+def remote = new HTTPBuilder("http://10.6.103.84:8081/")
 
 remote.request(POST, TEXT) { req ->
     uri.path = "/service/extdirect"
