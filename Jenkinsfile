@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'EPBYMINW2471' }
+    agent any
     stages {
         stage('Stack creation'){
            steps {
