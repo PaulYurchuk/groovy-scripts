@@ -159,9 +159,17 @@ job (deployer){
                 }
                 transferSet {
                     execCommand('rm -rf /opt/tomcat/webapps/helloworld*')
+                }
+            }
+        }
+        publishOverSsh {
+            server('Tomcat') {
+                credentials('vagrant'){
+                    pathToKey('/opt/jenkins/master/id_rsa')
+                }
+                transferSet {
                     sourceFiles('helloworld.war')
                     remoteDirectory('/opt/tomcat/webapps')
-                    //execCommand('mv /root/opt/tomcat/webapps/helloworld.war /opt/tomcat/webapps/')
                 }
             }
         }
